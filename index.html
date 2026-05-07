@@ -1,0 +1,2412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="only light">
+<title>lkewtr — preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Raleway:wght@300;800&family=Atkinson+Hyperlegible+Next:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+/* === base.css === */
+/* ─────────────────────────────────────────────────────
+   base.css
+   Global reset, CSS variables, body, page shell & hero
+   Page target: 1080 × 177.778vw portrait (9:16)
+   All sizing uses vw where 100.0vw = 100.0vw
+   ───────────────────────────────────────────────────── */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ── FONTS ───────────────────────────────────────────── */
+/* ── DESIGN TOKENS ───────────────────────────────────── */
+:root {
+  /* Opt out of browser forced-dark and Chrome auto-dark.
+     Combined with <meta name="color-scheme" content="only light">
+     in HTML, this prevents most aggressive auto-inversion. */
+  color-scheme: only light;
+
+  --aqua:       #2db8ad;
+  --aqua-light: #5cccc3;
+  --grey-bg:    #f0f0f0;   /* hero + nav background */
+  --grey-page:  #f5f5f5;   /* hero canvas + footer */
+  --grey-mid:   #a1a1a1;
+  --grey-dark:  #555555;
+  --text-dark:  #2a2a2a;
+  --body-bg:    #e2e2e2;   /* main content area */
+}
+
+
+/* ── UTOPIA FLUID TYPE SCALE ─────────────────────────── */
+/* Min: 14px @ 390px · Max: 20px @ 1920px                */
+:root {
+  --step-n2: clamp(0.563rem, 0.536rem + 0.058vw, 0.625rem);
+  --step-n1: clamp(0.7rem,   0.655rem + 0.098vw, 0.833rem);
+  --step-0:  clamp(0.875rem, 0.800rem + 0.163vw, 1.111rem);
+  --step-1:  clamp(1.094rem, 0.977rem + 0.253vw, 1.481rem);
+  --step-2:  clamp(1.367rem, 1.191rem + 0.379vw, 1.975rem);
+  --step-3:  clamp(1.709rem, 1.451rem + 0.557vw, 2.633rem);
+  --step-4:  clamp(2.136rem, 1.767rem + 0.797vw, 3.511rem);
+  --step-5:  clamp(2.670rem, 2.148rem + 1.130vw, 4.681rem);
+}
+
+/* ── BODY ────────────────────────────────────────────── */
+body {
+  background: var(--grey-page);
+  font-family: 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', sans-serif;
+  margin: 0;
+}
+
+/* ── PAGE SHELL — fluid, fills viewport ─────────────── */
+.page-shell {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--grey-bg);
+  overflow: hidden;
+}
+
+/* ── HERO — 30% of 177.778vw = 53.333vw = 53.333vw ─────────── */
+.hero {
+  position: relative;
+  width: 100%;
+  flex: 0 0 30vh;
+  overflow: hidden;
+  background: var(--grey-page);
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background-color: var(--grey-page);
+  background-image: url("data:image/svg+xml,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%20standalone%3D%22no%22%3F%3E%0A%3C%21--%20Created%20with%20Inkscape%20%28http%3A//www.inkscape.org/%29%20--%3E%0A%0A%3Csvg%0A%20%20%20version%3D%221.1%22%0A%20%20%20id%3D%22svg1%22%0A%20%20%20width%3D%22389%22%0A%20%20%20height%3D%22483%22%0A%20%20%20viewBox%3D%220%200%20389%20483%22%0A%20%20%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%0A%20%20%20xmlns%3Asvg%3D%22http%3A//www.w3.org/2000/svg%22%3E%0A%20%20%3Cdefs%0A%20%20%20%20%20id%3D%22defs1%22%20/%3E%0A%20%20%3Cg%0A%20%20%20%20%20id%3D%22g1%22%3E%0A%20%20%20%20%3Cpath%0A%20%20%20%20%20%20%20style%3D%22fill%3A%23e9e9e9%3Bfill-opacity%3A1%22%0A%20%20%20%20%20%20%20d%3D%22m%20115.41746%2C480.59305%20c%20-3.07492%2C-1.84325%20-5.00008%2C-4.17543%20-7.62784%2C-9.24054%20-1.93317%2C-3.72627%20-4.07942%2C-9.19882%20-4.76944%2C-12.16124%20-0.81221%2C-3.48705%20-1.0211%2C-8.18574%20-0.59242%2C-13.32598%200.36418%2C-4.36687%201.30068%2C-10.94308%202.08111%2C-14.61379%200.78043%2C-3.67071%202.7737%2C-11.17402%204.42949%2C-16.67402%201.6558%2C-5.5%205.43489%2C-16.3%208.39798%2C-24%202.9631%2C-7.7%205.72932%2C-14.9%206.14717%2C-16%200.41785%2C-1.1%20-0.2148%2C-0.48281%20-1.40589%2C1.37154%20-1.19108%2C1.85434%20-5.29363%2C9.42925%20-9.11676%2C16.83314%20-3.82314%2C7.40388%20-10.82917%2C19.61169%20-15.568936%2C27.12846%20-4.73978%2C7.51677%20-11.49703%2C18.44949%20-15.01612%2C24.29493%20-3.51908%2C5.84544%20-8.97391%2C13.72044%20-12.12184%2C17.5%20-4.07564%2C4.89341%20-7.34577%2C7.68346%20-11.35805%2C9.69058%20-4.369657%2C2.18591%20-8.001727%2C3.04931%20-16.179627%2C3.84615%20l%20-10.5451%2C1.0275%20-6.320368%2C-3.3237%20c%20-3.476203%2C-1.82803%20-9.042411%2C-6.03379%20-12.369351%2C-9.34614%20-3.326941%2C-3.31235%20-6.9807401%2C-8.04746%20-8.1195561%2C-10.52246%20-1.138815%2C-2.475%20-2.912689%2C-7.65%20-3.941941%2C-11.5%20-1.518831%2C-5.6813%20-1.863276%2C-10.48512%20-1.82841%2C-25.5%200.03084%2C-13.27899%200.541702%2C-21.18106%201.810192%2C-28%200.971978%2C-5.225%203.729491%2C-17.15%206.127807%2C-26.50001%202.3983161%2C-9.35%206.6457731%2C-24.52607%209.4387931%2C-33.7246%202.793021%2C-9.19853%207.126764%2C-22.24853%209.630541%2C-29%202.503777%2C-6.75147%207.294023%2C-18.74903%2010.644983%2C-26.66123%203.35097%2C-7.91221%2010.4452%2C-22.98721%2015.76496%2C-33.5%205.319757%2C-10.5128%2013.644037%2C-25.86417%2018.498397%2C-34.11417%204.85436%2C-8.25%2012.95593%2C-21.32011%2018.00349%2C-29.0447%205.04756%2C-7.72458%2012.866766%2C-18.67573%2017.376036%2C-24.33589%204.50927%2C-5.66017%2010.42545%2C-13.59116%2013.14707%2C-17.62443%202.72163%2C-4.03327%207.1283%2C-9.95711%209.79261%2C-13.16409%202.66432%2C-3.20699%206.27516%2C-7.8109%208.0241%2C-10.23092%202.71665%2C-3.75904%203.1799%2C-5.25949%203.1799%2C-10.299662%200%2C-3.41196%200.66382%2C-7.1833%201.57428%2C-8.94394%200.86585%2C-1.67437%205.32076%2C-7.04898%209.89979%2C-11.94358%204.65502%2C-4.97583%2012.96816%2C-15.84597%2018.85613%2C-24.65602%205.79185%2C-8.66622%2014.89351%2C-20.70676%2020.22591%2C-26.75676%205.33241%2C-6.05%2012.38581%2C-14.6%2015.67423%2C-18.9999997%203.28842%2C-4.4%206.12026%2C-8.15089%206.29296%2C-8.33532%200.17271%2C-0.18443%204.1162%2C0.82441%208.76332%2C2.24187%204.64712%2C1.41746%2012.07857%2C4.3937%2016.51434%2C6.61387%205.52324%2C2.7644697%209.48453%2C5.6154997%2012.56905%2C9.0462197%203.42293%2C3.80712%204.7716%2C6.2985%205.61882%2C10.37955%200.9261%2C4.46102%200.8445%2C6.02033%20-0.4821%2C9.21191%20-0.8783%2C2.11305%20-3.93911%2C6.24501%20-6.80182%2C9.18214%20-2.8627%2C2.93713%20-11.05491%2C10.42345%20-18.20491%2C16.63626%20-7.15%2C6.21281%20-17.30932%2C15.7347%20-22.57626%2C21.15976%20-5.26694%2C5.42506%20-12.93432%2C13.92904%20-17.03863%2C18.897752%20-4.10431%2C4.9687%20-11.52883%2C14.6437%20-16.49893%2C21.5%20-4.9701%2C6.85629%20-13.5953%2C19.28795%20-19.16711%2C27.6259%20-5.57181%2C8.33795%20-14.11948%2C21.83794%20-18.99482%2C29.99999%20-4.87534%2C8.16205%20-12.05618%2C20.69009%20-15.95743%2C27.84009%20-3.90124%2C7.15%20-9.79387%2C18.64092%20-13.09472%2C25.53538%20-4.34178%2C9.06864%20-6.73451%2C12.92765%20-8.65186%2C13.95379%20-2.215756%2C1.18584%20-2.787156%2C1.19698%20-3.484936%2C0.0679%20-0.57625%2C-0.9324%20-2.38385%2C1.86798%20-5.83916%2C9.04621%20-2.7525%2C5.71817%20-9.99104%2C20.66055%20-16.08564%2C33.20528%20-6.0946%2C12.54474%20-12.46965%2C26.94474%20-14.16678%2C32%20-1.69713%2C5.05527%20-3.340807%2C11.44139%20-3.652617%2C14.19139%20-0.31181%2C2.75%20-0.98532%2C5.81481%20-1.49667%2C6.81068%20-0.5655%2C1.10131%20-1.78473%2C1.68897%20-3.11209%2C1.5%20-1.65544%2C-0.23567%20-2.25857%2C-1.10314%20-2.4981%2C-3.59294%20-0.17367%2C-1.80524%200.33392%2C-5.49854%201.12798%2C-8.20734%200.98677%2C-3.36617%201.10418%2C-5.03827%200.37095%2C-5.28268%20-0.59003%2C-0.19668%20-1.09763%2C-2.12837%20-1.12798%2C-4.29266%20-0.0303%2C-2.16428%200.264%2C-5.96006%200.65412%2C-8.43506%200.47548%2C-3.01657%200.40561%2C-3.8407%20-0.21195%2C-2.5%20-0.50668%2C1.1%20-2.55788%2C6.275%20-4.55822%2C11.5%20-2.00034%2C5.225%20-4.54291%2C11.975%20-5.65017%2C15%20-1.10726%2C3.025%20-3.51558%2C13.375%20-5.35184%2C23%20-1.83625%2C9.62501%20-4.10897%2C20.87501%20-5.05048%2C25.00001%20-1.174175%2C5.1444%20-1.73928%2C12.2112%20-1.799237%2C22.5%20-0.06727%2C11.54384%200.338316%2C16.66104%201.760277%2C22.20905%201.84768%2C7.20905%201.84768%2C7.20905%204.25%2C5.63499%202.21006%2C-1.44804%202.40231%2C-1.43861%202.40231%2C0.11792%200%2C0.93057%201.36975%2C3.06168%203.04387%2C4.73581%202.74371%2C2.74371%203.45864%2C2.97755%207.25%2C2.37141%202.31338%2C-0.36985%206.09173%2C-1.77741%208.39635%2C-3.12791%202.304607%2C-1.3505%207.034537%2C-5.26475%2010.510957%2C-8.69834%203.47641%2C-3.43358%208.38073%2C-8.94288%2010.89849%2C-12.24288%202.51775%2C-3.3%206.6523%2C-9.15%209.18788%2C-13%202.53558%2C-3.85%207.15499%2C-9.7%2010.26536%2C-13%203.110366%2C-3.3%209.358586%2C-11.625%2013.884946%2C-18.5%204.52635%2C-6.875%2010.85789%2C-17.00001%2014.07009%2C-22.50001%203.2122%2C-5.5%208.10912%2C-12.3625%2010.88204%2C-15.25%202.77293%2C-2.8875%205.59038%2C-5.25%206.26101%2C-5.25%200.67062%2C0%206.27034%2C-9.7875%2012.44383%2C-21.75%206.17348%2C-11.9625%2015.02283%2C-28.26044%2019.66522%2C-36.21765%204.64239%2C-7.9572%209.31203%2C-16.67821%2010.37698%2C-19.38001%201.06495%2C-2.7018%201.74769%2C-5.10096%201.51718%2C-5.33146%20-0.2305%2C-0.2305%20-3.49051%2C0.29322%20-7.24448%2C1.16382%20-3.75396%2C0.8706%20-8.08187%2C1.30695%20-9.61756%2C0.96965%20-1.73444%2C-0.38095%20-2.79217%2C-1.26392%20-2.79217%2C-2.33086%200%2C-0.94468%201.69392%2C-3.37166%203.76426%2C-5.3933%202.20157%2C-2.14977%206.24918%2C-4.5714%209.75%2C-5.83329%204.31269%2C-1.55453%208.50129%2C-2.18798%2014.98574%2C-2.26634%207.80711%2C-0.0943%209.76292%2C0.24733%2014.75595%2C2.57775%203.28411%2C1.5328%207.82528%2C4.84476%2010.57459%2C7.71223%202.65024%2C2.76415%206.00661%2C7.45192%207.4586%2C10.41726%201.45198%2C2.96533%203.09492%2C7.36492%203.65097%2C9.77686%200.55605%2C2.41194%201.0176%2C7.53534%201.02568%2C11.38534%200.0113%2C5.38796%20-0.56055%2C8.23567%20-2.48315%2C12.36568%20-1.3738%2C2.95112%20-3.95417%2C7.22612%20-5.73416%2C9.5%20-1.77999%2C2.27388%20-9.02448%2C11.10932%20-16.09887%2C19.63432%20-7.07439%2C8.525%20-15.68041%2C19.55%20-19.12449%2C24.5%20-3.44408%2C4.95%20-9.25969%2C13.87133%20-12.92358%2C19.82518%20-3.66389%2C5.95386%20-7.92549%2C13.15386%20-9.47022%2C16.00001%20-1.54473%2C2.84615%20-5.13478%2C8.96749%20-7.97789%2C13.60297%20-2.8431%2C4.63548%20-8.02809%2C11.38936%20-11.5222%2C15.00862%20-3.4941%2C3.61926%20-7.48235%2C8.8266%20-8.86277%2C11.57185%20-1.38042%2C2.74526%20-3.68653%2C8.42308%20-5.12467%2C12.61738%20-1.43815%2C4.1943%20-3.50887%2C11.36927%20-4.6016%2C15.94437%20-1.09274%2C4.5751%20-1.80016%2C8.50499%20-1.57207%2C8.73309%200.2281%2C0.2281%201.90314%2C-0.63539%203.7223%2C-1.91886%201.81917%2C-1.28347%209.60758%2C-7.79468%2017.30758%2C-14.46935%207.7%2C-6.67466%2017.20211%2C-15.51142%2021.1158%2C-19.63724%203.91369%2C-4.12582%2016.36603%2C-19.42236%2027.67185%2C-33.99231%2011.30583%2C-14.56996%2024.33264%2C-30.80204%2028.94847%2C-36.0713%205.86165%2C-6.69143%209.8268%2C-12.43231%2013.14905%2C-19.03762%203.27764%2C-6.51662%205.07738%2C-11.59012%205.78821%2C-16.31698%200.56737%2C-3.7729%201.19644%2C-7.78228%201.39794%2C-8.90974%200.20149%2C-1.12746%201.84468%2C-2.75489%203.65152%2C-3.61651%201.80685%2C-0.86163%204.71557%2C-1.88076%206.46382%2C-2.26474%202.16658%2C-0.47586%207.16792%2C0.27762%2015.70798%2C2.36652%206.89114%2C1.68556%2013.43935%2C3.06466%2014.55157%2C3.06466%201.11223%2C0%203.44854%2C1.27441%205.19181%2C2.83201%202.64991%2C2.36769%203.24334%2C3.72156%203.6195%2C8.25755%200.40647%2C4.90148%200.0206%2C6.25994%20-3.99524%2C14.06425%20-2.44485%2C4.7513%20-6.7153%2C11.96993%20-9.48991%2C16.04141%20-2.7746%2C4.07148%20-6.61598%2C10.53066%20-8.53639%2C14.35373%20-1.92042%2C3.82309%20-4.28471%2C9.65106%20-5.25399%2C12.95106%20-0.96928%2C3.3%20-2.99867%2C9.15%20-4.50976%2C13%20-1.51109%2C3.85%20-3.54394%2C10.15%20-4.51746%2C14%20-1.05487%2C4.17172%20-1.80735%2C11.04039%20-1.8624%2C17%20-0.0924%2C10%20-0.0924%2C10%202.40763%2C9.72883%201.375%2C-0.14914%205.65%2C-1.77182%209.5%2C-3.60595%203.85%2C-1.83413%209.7%2C-5.3854%2013%2C-7.8917%203.3%2C-2.50631%209.55661%2C-8.08364%2013.90358%2C-12.39405%204.34697%2C-4.31042%2010.76718%2C-11.37916%2014.26714%2C-15.70831%203.49995%2C-4.32914%208.78646%2C-11.52914%2011.7478%2C-16%202.96135%2C-4.47085%207.89601%2C-12.62883%2010.96593%2C-18.12883%203.06992%2C-5.5%208.28467%2C-16.23108%2011.58834%2C-23.84685%203.30368%2C-7.61576%207.83494%2C-18.81534%2010.06948%2C-24.88794%202.23454%2C-6.0726%205.25636%2C-15.81652%206.71515%2C-21.65315%202.12966%2C-8.52074%202.65357%2C-12.9769%202.65853%2C-22.61206%200.004%2C-8.52261%20-0.41721%2C-12.85473%20-1.45489%2C-14.94955%20-0.80358%2C-1.62225%20-2.95675%2C-3.82055%20-4.78481%2C-4.88512%20-2.34847%2C-1.36762%20-6.21551%2C-2.13611%20-13.17892%2C-2.61902%20-5.65659%2C-0.39228%20-10.52451%2C-1.23894%20-11.42626%2C-1.98733%20-0.86409%2C-0.71713%20-1.57107%2C-2.37377%20-1.57107%2C-3.68142%200%2C-2.0457%200.48336%2C-2.37756%203.46298%2C-2.37756%201.90464%2C0%205.84214%2C-0.94743%208.75%2C-2.10539%204.20752%2C-1.67551%206.61418%2C-1.99448%2011.78702%2C-1.56221%203.575%2C0.29874%208.75953%2C1.28127%2011.52118%2C2.18339%202.76164%2C0.90212%207.14382%2C3.18063%209.73816%2C5.06335%202.59435%2C1.88271%205.80939%2C5.15358%207.14453%2C7.26858%201.33514%2C2.11501%203.14047%2C6.24617%204.01183%2C9.18037%200.87137%2C2.9342%201.5843%2C8.58865%201.5843%2C12.56544%200%2C3.97679%20-0.63768%2C10.53262%20-1.41706%2C14.5685%20-0.77939%2C4.03588%20-2.63389%2C10.71297%20-4.12112%2C14.83797%20-1.48723%2C4.125%20-5.18532%2C13.125%20-8.21797%2C20%20-3.03266%2C6.875%20-8.26565%2C16.92281%20-11.62888%2C22.32846%20-3.36324%2C5.40565%20-12.44642%2C18.27785%20-20.18487%2C28.60488%20-7.73844%2C10.32704%20-18.53844%2C24.12923%20-24%2C30.67155%20-5.46155%2C6.54232%20-15.7801%2C17.90948%20-22.9301%2C25.26037%20-7.15%2C7.35088%20-17.48147%2C16.74466%20-22.95882%2C20.87505%20-5.47736%2C4.13039%20-11.92717%2C8.35353%20-14.33291%2C9.38475%20-2.40574%2C1.03122%20-6.68729%2C1.87495%20-9.51453%2C1.87495%20-4.98819%2C0%20-5.31151%2C-0.17976%20-10.91516%2C-6.06861%20-3.17608%2C-3.33774%20-6.94596%2C-8.06723%20-8.37751%2C-10.50999%20-1.43155%2C-2.44275%20-3.226%2C-6.51206%20-3.98768%2C-9.04291%20-0.76167%2C-2.53085%20-1.86353%2C-8.45354%20-2.44856%2C-13.16153%20-0.7622%2C-6.13365%20-0.7493%2C-11.7522%200.0455%2C-19.82205%200.61007%2C-6.19414%201.92043%2C-14.66697%202.91191%2C-18.82849%200.99148%2C-4.16153%201.65635%2C-7.56642%201.47748%2C-7.56642%20-0.17887%2C0%20-2.10305%2C2.61797%20-4.27595%2C5.81771%20-2.1729%2C3.19974%20-8.44823%2C12.85323%20-13.94517%2C21.45218%20-5.49694%2C8.59896%20-12.60402%2C19.14349%20-15.7935%2C23.43229%20-3.18949%2C4.2888%20-13.24343%2C15.39166%20-22.3421%2C24.67302%20-9.09866%2C9.28137%20-20.78182%2C20.67365%20-25.96257%2C25.31618%20-5.18075%2C4.64253%20-11.12532%2C9.31119%20-13.21016%2C10.37479%20-2.08484%2C1.06361%20-5.72104%2C1.92957%20-8.08045%2C1.92437%20-2.7676%2C-0.006%20-5.74932%2C-0.88434%20-8.40282%2C-2.47497%20z%20M%2058.999824%2C314.57747%20c%200%2C-0.55%20-0.43622%2C-0.325%20-0.96938%2C0.5%20-0.53315%2C0.825%20-0.96937%2C1.95%20-0.96937%2C2.5%200%2C0.55%200.43622%2C0.325%200.96937%2C-0.5%200.53316%2C-0.825%200.96938%2C-1.95%200.96938%2C-2.5%20z%20m%200.69729%2C-3.16667%20c%20-0.36667%2C-0.36666%20-0.66667%2C-0.0667%20-0.66667%2C0.66667%200%2C0.73333%200.3%2C1.03333%200.66667%2C0.66667%200.36667%2C-0.36667%200.36667%2C-0.96667%200%2C-1.33334%20z%20m%201.33333%2C-1.83333%20c%200%2C-0.275%20-0.225%2C-0.5%20-0.5%2C-0.5%20-0.275%2C0%20-0.5%2C0.225%20-0.5%2C0.5%200%2C0.275%200.225%2C0.5%200.5%2C0.5%200.275%2C0%200.5%2C-0.225%200.5%2C-0.5%20z%20m%203.00869%2C-24.5128%20c%202.25246%2C-3.31689%204.74697%2C-7.8775%205.54335%2C-10.13468%200.79638%2C-2.25719%201.44796%2C-4.55679%201.44796%2C-5.11024%200%2C-0.55345%20-3.21994%2C4.34063%20-7.15544%2C10.87572%20-3.93549%2C6.5351%20-7.709217%2C13.232%20-8.386057%2C14.882%20-0.67685%2C1.65%20-1.54234%2C4.575%20-1.92332%2C6.5%20-0.51039%2C2.5789%200.23773%2C1.59437%202.84273%2C-3.74104%201.944467%2C-3.98258%205.378327%2C-9.95487%207.630777%2C-13.27176%20z%20m%2027.89922%2C-55.2372%20c%201.24037%2C-2.0625%201.9869%2C-3.75%201.65895%2C-3.75%20-0.32794%2C0%20-1.48796%2C1.4625%20-2.57782%2C3.25%20-1.08986%2C1.7875%20-1.98324%2C3.6625%20-1.9853%2C4.16667%20-0.002%2C0.50416%200.14312%2C0.72916%200.32261%2C0.5%200.17949%2C-0.22917%201.34119%2C-2.10417%202.58156%2C-4.16667%20z%20M%20151.78044%2C482.4152%20c%200.6875%2C-0.27741%201.8125%2C-0.27741%202.5%2C0%200.6875%2C0.27741%200.125%2C0.50439%20-1.25%2C0.50439%20-1.375%2C0%20-1.9375%2C-0.22698%20-1.25%2C-0.50439%20z%20m%2031%2C0%20c%200.6875%2C-0.27741%201.8125%2C-0.27741%202.5%2C0%200.6875%2C0.27741%200.125%2C0.50439%20-1.25%2C0.50439%20-1.375%2C0%20-1.9375%2C-0.22698%20-1.25%2C-0.50439%20z%20m%2032%2C0%20c%200.6875%2C-0.27741%201.8125%2C-0.27741%202.5%2C0%200.6875%2C0.27741%200.125%2C0.50439%20-1.25%2C0.50439%20-1.375%2C0%20-1.9375%2C-0.22698%20-1.25%2C-0.50439%20z%22%0A%20%20%20%20%20%20%20id%3D%22path1%22%20/%3E%0A%20%20%3C/g%3E%0A%3C/svg%3E%0A");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: auto 85%;
+}
+
+/* Portrait logo — centred with breathing room top/bottom */
+.hero-logo {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10% 0;
+  z-index: 1;
+}
+.hero-logo img {
+  height: 100%;
+  width: auto;
+  object-fit: contain;
+  display: block;
+}
+
+/* Tagline + ad container */
+.hero-center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 2vh;
+  z-index: 2;
+}
+
+.hero-slot {
+  text-align: center;
+  padding: 0 2rem;
+  position: relative;
+  width: 100%;
+}
+
+/* ── TAGLINE ─────────────────────────────────────────── */
+.tagline {
+  font-family: 'Caveat', cursive;
+  font-size: var(--step-3);
+  font-weight: 700;
+  color: #777777;
+  text-shadow: 0 1px 0.185vw rgba(211,216,221,0.9);
+  letter-spacing: 0.01em;
+  line-height: 1.3;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 600ms ease;
+  pointer-events: none;
+  position: absolute;
+  width: 100%;
+  left: 0;
+}
+.tagline.visible { opacity: 1; }
+
+/* ── AD SLOT ─────────────────────────────────────────── */
+.ad-slot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 600ms ease;
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+}
+.ad-slot.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+.ad-slot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ── AD REGIONS — transparent click targets overlaid on ad ── */
+.ad-region {
+  position: absolute;
+  display: block;
+  background: transparent;
+  text-decoration: none;
+  cursor: pointer;
+  /* outline appears on keyboard focus only */
+  outline-offset: -2px;
+}
+.ad-region:focus-visible {
+  outline: 2px solid var(--aqua-light);
+}
+/* Debug helper — uncomment to visualize region rectangles during authoring */
+/* .ad-region { background: rgba(45,184,173,0.18); border: 1px dashed var(--aqua); } */
+
+/* ── DEMO BAR (remove in production) ─────────────────── */
+.demo-bar {
+  background: #1a1a1a;
+  border-top: 1px solid #333;
+  padding: 0.75rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.75rem;
+  color: #888;
+  font-family: 'Courier New', monospace;
+  flex-wrap: wrap;
+}
+.demo-bar strong { color: var(--aqua); }
+.demo-btn {
+  background: #2a2a2a;
+  border: 1px solid #444;
+  color: var(--aqua-light);
+  padding: 0.3rem 0.8rem;
+  font-size: 0.72rem;
+  cursor: pointer;
+  font-family: inherit;
+  border-radius: 0.185vw;
+  transition: background 150ms;
+}
+.demo-btn:hover { background: #333; }
+.demo-status { margin-left: auto; color: #666; }
+
+.placeholder-note {
+  position: absolute;
+  bottom: 0.926vw;
+  right: 1.296vw;
+  font-size: 0.6rem;
+  color: rgba(64,224,208,0.4);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-family: 'Courier New', monospace;
+  z-index: 3;
+}
+
+/* ─────────────────────────────────────────────────────
+   RESPONSIVE OVERRIDES
+   Applied on top of the fully-fluid base styles.
+   The site's primary calibration is desktop; these
+   overrides correct narrow-viewport over-spacing,
+   over-sized hero, and tap-target issues.
+   ───────────────────────────────────────────────────── */
+
+/* ── TABLET / PHONE ≤ 1024px ─────────────────────────
+   Tone down nav-tab scaling between 768–1024 so tabs
+   don't jump to desktop sizing too early. */
+@media (max-width: 1024px) {
+  .nav-tab {
+    font-size: clamp(1.0rem, 1.6vw, 1.25rem);
+  }
+}
+
+/* ── PHONE / NARROW TABLET ≤ 768px ───────────────────
+   Most fixes live here. */
+@media (max-width: 768px) {
+
+  /* Hero: cap height so content isn't pushed below
+     the fold, and let the tagline wrap. */
+  .hero-bg {
+    height: clamp(140px, 22vh, 200px);
+    /* watermark logo — much smaller on phone so it sits as a subtle
+       background mark, not a dominating visual */
+    background-size: auto 55%;
+  }
+
+  /* Tagline: allow wrap, reduce size, tighten line-height. */
+  .tagline {
+    white-space: normal;
+    font-size: clamp(1.1rem, 5.5vw, 1.5rem);
+    line-height: 1.25;
+    padding: 0 1rem;
+    text-align: center;
+  }
+
+  /* Section heads (h2 in both .section-panel and .arc-section)
+     — tighten letter-spacing, drop font slightly. */
+  .section-panel h2,
+  .arc-section h2 {
+    font-size: clamp(0.95rem, 3.4vw, 1.15rem);
+    letter-spacing: 0.15em;
+    margin-bottom: 1.2rem;
+    padding-bottom: 0.5rem;
+    /* Allow the row to wrap if children won't fit on one line */
+    flex-wrap: wrap;
+    gap: 0.5rem 1rem;
+  }
+
+  /* Inline header pieces (back link, separator, label, archive link)
+     — tighten letter-spacing for narrow widths. */
+  .archive-link,
+  .section-back,
+  .section-label {
+    letter-spacing: 0.12em;
+    font-size: 0.7rem;
+  }
+  .section-back-group {
+    gap: 0.5rem;
+  }
+  /* Shorten the small underline on archive/back links so it doesn't
+     dominate the smaller text. */
+  .archive-link::after,
+  .section-back::after {
+    width: 1.4rem;
+  }
+
+  /* Read-more, post-meta — give back a bit of letter-spacing breathing room. */
+  .read-more {
+    letter-spacing: 0.12em;
+  }
+  .post-meta {
+    letter-spacing: 0.08em;
+  }
+
+  /* Archive section header: stack pagination above post-count
+     so the row isn't crammed on phone. */
+  .arc-section-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  /* Search input: dial down the font on phone so the
+     placeholder isn't a shouting headline. */
+  .arc-search-input {
+    font-size: clamp(0.95rem, 3.4vw, 1.1rem);
+    letter-spacing: 0.02em;
+  }
+  .arc-search-input::placeholder {
+    /* Keep placeholder tracking minimal — letter-spacing doesn't
+       help readability on placeholder text at small sizes. */
+    letter-spacing: 0;
+  }
+
+  /* Footer: enlarge tap targets without changing visual size. */
+  .footer-link {
+    padding: 0.6rem 0.4rem;  /* invisible padding extends hit area */
+    letter-spacing: 0.18em;
+  }
+  .site-footer {
+    padding-top: 0.4rem;
+    padding-bottom: 0.4rem;
+  }
+
+  /* Nav tabs: a touch tighter on phone. */
+  .nav-tab {
+    font-size: clamp(0.95rem, 4vw, 1.1rem);
+    letter-spacing: 0.06em;
+    padding: 0.6rem 0.4rem;
+  }
+}
+
+/* ── PHONE PORTRAIT ≤ 480px ──────────────────────────
+   Final compression for the smallest devices. */
+@media (max-width: 480px) {
+  .tagline {
+    font-size: clamp(1rem, 5.5vw, 1.3rem);
+  }
+  .section-panel h2,
+  .arc-section h2 {
+    letter-spacing: 0.1em;
+  }
+  .nav-tab {
+    letter-spacing: 0.04em;
+  }
+}
+
+
+
+/* === nav.css === */
+/* ─────────────────────────────────────────────────────
+   nav.css — Site navigation tab bar
+   ───────────────────────────────────────────────────── */
+
+.site-nav {
+  width: 100%;
+  display: flex;
+  flex-shrink: 0;
+  background: var(--grey-page);
+  align-items: flex-end;
+}
+
+.nav-tab {
+  flex: 1;
+  position: relative;
+  padding: 1.5vh 0.5vw 10px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  font-family: 'Raleway', 'Century Gothic', sans-serif;
+  font-size: clamp(0.65rem, 0.4rem + 2vw, 1.6rem);
+  font-weight: 800;
+  font-style: normal;
+  letter-spacing: clamp(0.03em, 0.08vw, 0.15em);
+  text-transform: uppercase;
+  cursor: pointer;
+  color: var(--grey-dark);
+  background: var(--grey-page);
+  border: none;
+  border-bottom: none;
+  transition: color 200ms;
+  user-select: none;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+/* Animated rollup bar — sits below text via padding-bottom gap */
+.nav-tab::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 8px;
+  background: linear-gradient(to bottom, var(--aqua) 0 2px, var(--body-bg) 2px 100%);
+  transform: scaleY(0);
+  transform-origin: bottom left;
+  transition: transform 0.35s ease;
+}
+
+.nav-tab:hover::after {
+  transform: scaleY(1);
+}
+
+.nav-tab.active {
+  color: var(--grey-dark);
+}
+
+.nav-tab.active::after {
+  transform: scaleY(1);
+}
+
+
+/* === main.css === */
+/* ─────────────────────────────────────────────────────
+   main.css
+   Main content area — section panels and post cards
+   ───────────────────────────────────────────────────── */
+
+.site-body {
+  background: var(--body-bg);
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding: clamp(16px, 5.39vmin, 64px) clamp(20px, 7.25vmin, 76px);
+  color: var(--grey-dark);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── SECTION PANELS ──────────────────────────────────── */
+.section-panel {
+  display: none;
+  flex-direction: column;
+  width: 90vw;
+  margin: 0 auto;
+  flex: 1 1 auto;
+}
+.section-panel.active {
+  display: flex;
+}
+
+.section-panel h2,
+.arc-section h2 {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  font-family: 'Raleway', 'Raleway', 'Century Gothic', sans-serif;
+  font-size: var(--step-1);
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--grey-mid);
+  margin-bottom: 2.5vw;
+  border-bottom: 1px solid rgba(161,161,161,0.25);
+  padding-bottom: 0.833vw;
+}
+
+/* ── ARCHIVE LINK — lives inside the h2 row ─────────── */
+.archive-link {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4vw;
+  font-family: 'Raleway', 'Raleway', 'Century Gothic', sans-serif;
+  font-size: var(--step-n1);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-weight: normal;
+  color: var(--grey-dark);
+  text-decoration: none;
+  transition: color 200ms;
+}
+.archive-link::after {
+  content: '';
+  display: block;
+  width: 2.5vw;
+  height: 1px;
+  background: var(--aqua);
+  opacity: 0.8;
+  transition: background 200ms;
+}
+.archive-link:hover { color: var(--aqua); }
+.archive-link:hover::after { background: var(--aqua-light); }
+
+/* ── SECTION BACK GROUP — back link + dot + view label ── */
+.section-back-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8vw;
+}
+
+.section-back {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4vw;
+  font-family: 'Raleway', 'Raleway', 'Century Gothic', sans-serif;
+  font-size: var(--step-n1);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-weight: normal;
+  color: var(--grey-dark);
+  text-decoration: none;
+  transition: color 200ms;
+}
+.section-back::after {
+  content: '';
+  display: block;
+  width: 2.5vw;
+  height: 1px;
+  background: var(--aqua);
+  opacity: 0.8;
+  transition: background 200ms;
+}
+.section-back:hover { color: var(--aqua); }
+.section-back:hover::after { background: var(--aqua-light); }
+
+.section-back-sep {
+  font-size: var(--step-n1);
+  color: var(--grey-mid);
+  opacity: 0.6;
+  line-height: 1;
+  /* compensate for the underline gap on .section-back so dot aligns with text baseline */
+  margin-bottom: calc(0.4vw + 1px);
+}
+
+.section-label {
+  font-family: 'Raleway', 'Raleway', 'Century Gothic', sans-serif;
+  font-size: var(--step-n1);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--grey-mid);
+  /* match vertical position of .section-back text */
+  margin-bottom: calc(0.4vw + 1px);
+}
+
+/* ── POST CARDS ──────────────────────────────────────── */
+.post-card {
+  background: transparent;
+  border-left: clamp(3px, 0.37vw, 6px) solid var(--aqua);
+  padding: clamp(12px, 2.7vmin, 40px) clamp(14px, 3.71vmin, 48px);
+  margin-bottom: 0;
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+}
+.post-card + .post-card {
+  margin-top: 2vw;
+}
+
+.post-card .post-title {
+  font-size: var(--step-2);
+  font-weight: 700;)
+  color: var(--grey-dark);
+  margin-bottom: 0.556vw;
+  letter-spacing: 0.04em;
+}
+
+.post-card .post-meta {
+  font-size: var(--step-n1);
+  color: var(--grey-mid);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 0.833vw;
+}
+
+.post-card .post-excerpt {
+  font-family: 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', sans-serif;
+  font-size: var(--step-0);
+  color: var(--grey-dark);
+  line-height: 1.6;
+  opacity: 0.55;
+  flex: 1 1 auto;
+  overflow: hidden;
+}
+
+
+
+
+/* ── READ MORE ───────────────────────────────────────── */
+.post-card {
+  cursor: pointer;
+}
+.post-card:hover {
+  border-left-color: var(--aqua-light);
+}
+.read-more {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4vw;
+  font-family: 'Raleway', 'Raleway', 'Century Gothic', sans-serif;
+  font-size: var(--step-n1);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--grey-dark);
+  margin-top: 1.204vw;
+  transition: color 200ms;
+  align-self: flex-start;
+}
+.read-more::after {
+  content: '';
+  display: block;
+  width: 2.5vw;
+  height: 1px;
+  background: var(--aqua);
+  opacity: 0.8;
+  transition: background 200ms;
+  align-self: center;
+}
+.post-card:hover .read-more { color: var(--aqua); }
+.post-card:hover .read-more::after { background: var(--aqua-light); }
+
+/* ── POST VIEW ───────────────────────────────────────── */
+.post-view {
+  display: none;
+  flex-direction: column;
+  width: 90vw;
+  margin: 0 auto;
+  padding-bottom: 3.981vw;
+  flex: 1 1 auto;
+}
+.post-view.active {
+  display: flex;
+}
+
+.back-btn {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4vw;
+  background: none;
+  border: none;
+  font-family: 'Raleway', 'Raleway', 'Century Gothic', sans-serif;
+  font-size: var(--step-n1);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--grey-dark);
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 2.5vw;
+  transition: color 200ms;
+  align-self: flex-start;
+}
+.back-btn::after {
+  content: '';
+  display: block;
+  width: 2.5vw;
+  height: 1px;
+  background: var(--aqua);
+  opacity: 0.8;
+  transition: background 200ms;
+}
+.back-btn:hover { color: var(--aqua); }
+.back-btn:hover::after { background: var(--aqua-light); }
+
+.post-view-meta {
+  font-family: 'Raleway', 'Raleway', 'Century Gothic', sans-serif;
+  font-size: var(--step-n1);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--grey-mid);
+  margin-bottom: 1.019vw;
+}
+
+.post-view-title {
+  font-family: 'Raleway', 'Raleway', 'Century Gothic', sans-serif;
+  font-size: var(--step-4);
+  font-weight: 800;
+  color: var(--grey-dark);
+  letter-spacing: 0.04em;
+  line-height: 1.2;
+  margin-bottom: 2.5vw;
+  padding-bottom: 1.481vw;
+  border-bottom: 1px solid rgba(161,161,161,0.25);
+}
+
+.post-view-body {
+  font-family: 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', 'Raleway', 'Century Gothic', sans-serif;
+  font-size: var(--step-0);
+  color: var(--grey-dark);
+  line-height: 1.8;
+  font-weight: 400;
+}
+.post-view-body p {
+  margin-bottom: 2.037vw;
+}
+.post-view-body h3 {
+  font-family: 'Raleway', 'Raleway', 'Century Gothic', sans-serif;
+  font-size: var(--step-2);
+  font-weight: 800;
+  color: var(--grey-dark);
+  letter-spacing: 0.06em;
+  margin: 2.5vw 0 1.019vw;
+}
+
+/* ── UNDER CONSTRUCTION ──────────────────────────────── */
+.uc-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding-top: 3.981vw;
+  width: 70.0vw;
+  margin: 0 auto;
+}
+
+.uc-label {
+  font-family: 'Raleway', 'Raleway', 'Century Gothic', sans-serif;
+  font-size: var(--step-n1);
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--grey-mid);
+  margin-bottom: 2.5vw;
+}
+
+.uc-title {
+  font-family: 'Raleway', 'Raleway', 'Century Gothic', sans-serif;
+  font-size: var(--step-4);
+  font-weight: 800;
+  color: var(--grey-dark);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1.1;
+  margin-bottom: 2.5vw;
+}
+
+.uc-title span {
+  color: var(--aqua);
+}
+
+.uc-divider {
+  width: 7.963vw;
+  height: 1px;
+  background: var(--aqua);
+  margin: 0 auto 2.5vw;
+  opacity: 0.7;
+}
+
+.uc-message {
+  font-family: 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', sans-serif;
+  font-size: var(--step-0);
+  color: var(--grey-mid);
+  line-height: 1.7;
+}
+
+/* ── CONTACT FORM ────────────────────────────────────── */
+.contact-form {
+  width: 70.0vw;
+  margin-top: 2.037vw;
+}
+
+.form-row {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 2.5vw;
+}
+
+.form-label {
+  font-family: 'Raleway', 'Raleway', 'Century Gothic', sans-serif;
+  font-size: var(--step-n1);
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--grey-mid);
+  margin-bottom: 0.833vw;
+}
+
+.form-input {
+  background: var(--grey-page);
+  border: none;
+  border-bottom: 1px solid rgba(161,161,161,0.35);
+  padding: 1.019vw 0.463vw;
+  font-family: 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', sans-serif;
+  font-size: var(--step-0);
+  color: var(--grey-dark);
+  outline: none;
+  transition: border-color 200ms;
+  width: 100%;
+}
+.form-input:focus {
+  border-bottom-color: var(--aqua);
+}
+.form-input::placeholder {
+  color: var(--grey-mid);
+  opacity: 0.5;
+}
+
+.form-textarea {
+  resize: none;
+  height: 12.037vw;
+  line-height: 1.6;
+}
+
+.form-submit-row {
+  margin-top: 1.019vw;
+}
+
+.form-submit {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.37vw;
+  background: none;
+  border: none;
+  font-family: 'Raleway', 'Raleway', 'Century Gothic', sans-serif;
+  font-size: var(--step-n1);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--grey-dark);
+  cursor: pointer;
+  padding: 0;
+  transition: color 200ms;
+}
+.form-submit::after {
+  content: '';
+  display: block;
+  width: 100%;
+  min-width: 7.963vw;
+  height: 1px;
+  background: var(--aqua);
+  opacity: 0.8;
+  transition: background 200ms;
+}
+.form-submit:hover {
+  color: var(--aqua);
+}
+.form-submit:hover::after {
+  background: var(--aqua-light);
+}
+
+.form-status {
+  font-family: 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', sans-serif;
+  font-size: var(--step-n1);
+  color: var(--aqua);
+  margin-top: 1.481vw;
+  min-height: 2.037vw;
+}
+
+/* ── ABOUT LIST ──────────────────────────────────────── */
+.about-list {
+  margin: 1.5vw 0 2vw 3vw;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2vw;
+}
+
+.about-list-item {
+  font-family: 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', sans-serif;
+  font-size: var(--step-0);
+  color: var(--grey-dark);
+  line-height: 1.7;
+  padding-left: 1vw;
+  border-left: clamp(3px, 0.37vw, 6px) solid var(--aqua);
+}
+
+.about-list-label {
+  font-family: 'Raleway', 'Century Gothic', sans-serif;
+  font-weight: 800;
+  color: var(--grey-dark);
+  margin-right: 0.5em;
+  letter-spacing: 0.05em;
+}
+
+
+/* === footer.css === */
+/* ─────────────────────────────────────────────────────
+   footer.css
+   Site footer — thin compact bar, single unified row
+   Footer height: ~22.778vw = 22.778vw at 100.0vw base
+   ───────────────────────────────────────────────────── */
+
+.site-footer {
+  background: var(--grey-page);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1vh 0 1.2vh;
+}
+
+/* Full-width aqua gradient rule at top of footer */
+.footer-rule {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--aqua) 20%,
+    var(--aqua-light) 50%,
+    var(--aqua) 80%,
+    transparent 100%
+  );
+  opacity: 0.75;
+  margin-bottom: 1.019vw;
+}
+
+/* ── UNIFIED ROW ─────────────────────────────────────── */
+.footer-inner {
+  display: flex;
+  align-items: center;
+  gap: 2.037vw;
+}
+
+.footer-link-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.278vw;
+}
+
+.footer-link {
+  font-family: 'Raleway', 'Raleway', 'Century Gothic', sans-serif;
+  font-size: clamp(0.7rem, 1.2vw, 0.95rem);
+  font-weight: 200;
+  letter-spacing: 0.28em;
+  text-transform: lowercase;
+  color: var(--grey-dark);
+  text-decoration: none;
+  transition: color 200ms;
+}
+.footer-link:hover { color: var(--aqua); }
+
+.footer-link-bar {
+  width: 2.5vw;
+  height: 1px;
+  background: var(--aqua-light);
+  opacity: 0.8;
+}
+
+.footer-divider {
+  width: 1px;
+  height: 2.5vw;
+  background: rgba(161,161,161,0.3);
+}
+
+.footer-logo-bar {
+  width: 2.5vw;
+  height: 1px;
+  background: var(--aqua-light);
+  opacity: 0.8;
+}
+
+.footer-logo {
+  height: var(--step-2);
+  width: auto;
+  opacity: 1;
+  display: block;
+  filter: brightness(0) opacity(0.35);
+}
+
+
+/* === archive.css === */
+/* ─────────────────────────────────────────────────────
+   archive.css
+   Archive page — search, stacked post list, pagination
+   All clamp/spacing values aligned to main.css / index
+   ───────────────────────────────────────────────────── */
+
+/* ── SHORTER HERO ────────────────────────────────────── */
+.arc-hero {
+  flex: 0 0 18vh !important;
+}
+
+/* ── BODY — mirrors .site-body exactly ───────────────── */
+.arc-body {
+  background: var(--body-bg);
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding: clamp(16px, 5.39vmin, 64px) clamp(20px, 7.25vmin, 76px);
+  color: var(--grey-dark);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── SEARCH ──────────────────────────────────────────── */
+.arc-search-wrap {
+  width: 90vw;
+  margin: 0 auto clamp(12px, 2vw, 32px);
+}
+
+.arc-search-box {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.4vw;
+}
+
+.arc-search-row {
+  display: flex;
+  align-items: center;
+  gap: 1vw;
+}
+
+.arc-search-input {
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', sans-serif;
+  font-size: var(--step-1);
+  font-weight: 300;
+  color: var(--grey-dark);
+  letter-spacing: 0.04em;
+  padding: 0;
+}
+
+.arc-search-input::placeholder {
+  color: var(--grey-mid);
+  opacity: 0.6;
+}
+
+.arc-search-bar {
+  width: 2.5vw;
+  min-width: 20px;
+  height: 1px;
+  background: rgba(161,161,161,0.25);
+  align-self: center;
+}
+
+.arc-search-clear {
+  background: none;
+  border: none;
+  font-size: var(--step-n1);
+  color: var(--grey-mid);
+  cursor: pointer;
+  padding: 0;
+  transition: color 200ms;
+}
+.arc-search-clear:hover { color: var(--aqua); }
+
+/* ── SECTION PANELS — mirrors .section-panel exactly ─── */
+.arc-section {
+  display: none;
+  flex-direction: column;
+  width: 90vw;
+  margin: 0 auto;
+  flex: 1 1 auto;
+}
+.arc-section.active { display: flex; }
+
+.arc-section-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(161,161,161,0.25);
+  padding-bottom: 0.833vw;
+  margin-bottom: 2.5vw;
+}
+
+.arc-section-nav {
+  display: flex;
+  align-items: baseline;
+  gap: 0.8vw;
+}
+
+/* Remove separate pagination block styling — now lives in header */
+.arc-pagination {
+  display: none;
+}
+
+.arc-section-label {
+  font-family: 'Raleway', 'Century Gothic', sans-serif;
+  font-size: var(--step-1);
+  font-weight: 800;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--grey-mid);
+}
+
+.arc-post-count {
+  font-family: 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', sans-serif;
+  font-size: var(--step-n1);
+  color: var(--grey-mid);
+  letter-spacing: 0.1em;
+}
+
+/* ── STACKED POST ITEMS ──────────────────────────────── */
+.arc-post-item {
+  border-left: clamp(3px, 0.37vw, 6px) solid var(--aqua);
+  padding: clamp(8px, 1.481vw, 24px) clamp(10px, 2.037vw, 32px);
+  margin-bottom: 0;
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  transition: border-color 200ms;
+}
+.arc-post-item + .arc-post-item {
+  margin-top: clamp(8px, 1.204vw, 20px);
+}
+.arc-post-item:hover {
+  border-left-color: var(--aqua-light);
+}
+
+.arc-post-title {
+  font-family: 'Raleway', 'Century Gothic', sans-serif;
+  font-size: var(--step-2);
+  font-weight: 700;
+  color: var(--grey-dark);
+  margin-bottom: 0.556vw;
+  letter-spacing: 0.04em;
+}
+
+.arc-post-meta {
+  font-family: 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', sans-serif;
+  font-size: var(--step-n1);
+  color: var(--grey-mid);
+  letter-spacing: 0.08em;
+  margin-bottom: 0.833vw;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.4vw;
+}
+
+.arc-tag {
+  font-family: 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', sans-serif;
+  font-size: var(--step-n2);
+  color: var(--aqua);
+  background: rgba(45,184,173,0.08);
+  border: 1px solid rgba(45,184,173,0.3);
+  padding: 0.1vw 0.6vw;
+  border-radius: 2px;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: background 200ms, color 200ms;
+}
+.arc-tag:hover {
+  background: rgba(45,184,173,0.18);
+  color: var(--grey-dark);
+}
+
+.arc-post-excerpt {
+  font-family: 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', sans-serif;
+  font-size: var(--step-0);
+  color: var(--grey-dark);
+  opacity: 0.55;
+  line-height: 1.6;
+  margin-bottom: 0.833vw;
+  flex: 1 1 auto;
+  overflow: hidden;
+}
+
+/* read more — matches index read-more exactly */
+.arc-read-more {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4vw;
+  font-family: 'Raleway', 'Century Gothic', sans-serif;
+  font-size: var(--step-n1);
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--grey-dark);
+  text-decoration: none;
+  align-self: flex-start;
+  transition: color 200ms;
+}
+.arc-read-more::after {
+  content: '';
+  display: block;
+  width: 2.5vw;
+  min-width: 20px;
+  height: 1px;
+  background: var(--aqua);
+  opacity: 0.8;
+  transition: background 200ms;
+}
+.arc-read-more:hover { color: var(--aqua); }
+.arc-read-more:hover::after { background: var(--aqua-light); }
+
+/* ── PAGE BUTTONS — used inside section header ────────── */
+
+.arc-page-btn {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4vw;
+  background: none;
+  border: none;
+  font-family: 'Raleway', 'Century Gothic', sans-serif;
+  font-size: var(--step-n1);
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--grey-dark);
+  cursor: pointer;
+  padding: 0;
+  transition: color 200ms;
+}
+.arc-page-btn::after {
+  content: '';
+  display: block;
+  width: 2.5vw;
+  min-width: 20px;
+  height: 1px;
+  background: var(--aqua);
+  opacity: 0.8;
+  transition: background 200ms;
+}
+.arc-page-btn:hover { color: var(--aqua); }
+.arc-page-btn:hover::after { background: var(--aqua-light); }
+.arc-page-btn:disabled { opacity: 0.3; cursor: default; }
+.arc-page-btn:disabled::after { background: var(--grey-mid); }
+
+.arc-page-info {
+  font-family: 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', sans-serif;
+  font-size: var(--step-n1);
+  color: var(--grey-mid);
+  letter-spacing: 0.1em;
+}
+
+/* ── SEARCH RESULTS ──────────────────────────────────── */
+.arc-results-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.arc-no-results {
+  font-family: 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', sans-serif;
+  font-size: var(--step-n1);
+  color: var(--grey-mid);
+  padding: 2.5vw 0;
+  text-align: center;
+  letter-spacing: 0.06em;
+}
+
+/* ── FOOTER PAGE NAV ─────────────────────────────────── */
+.arc-footer-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: 'Raleway', 'Century Gothic', sans-serif;
+  font-weight: 200;
+  letter-spacing: 0.28em;
+  text-transform: lowercase;
+  color: var(--grey-dark);
+  padding: 0;
+  transition: color 200ms;
+}
+.arc-footer-btn:hover { color: var(--aqua); }
+
+
+
+
+.page-wrap { width: 100%; height: 100%; }
+html, body { height: 100%; margin: 0; }
+</style>
+</head>
+<body>
+<div id="page-index" class="page-wrap">
+
+
+  <div class="page-shell">
+
+    <!-- ── HERO ─────────────────────────────────────── -->
+    <section class="hero">
+      <div class="hero-bg"></div>
+      <div class="hero-center">
+        <div class="hero-slot">
+          <div class="tagline" id="tagline">
+            The landscape of technology is ever changing&hellip; Be like water, adapt.
+          </div>
+        </div>
+      </div>
+      <div class="ad-slot" id="adSlot">
+        <img id="adImage" src="" alt="Advertisement">
+      </div>
+    </section>
+
+    <!-- ── NAV ──────────────────────────────────────── -->
+    <nav class="site-nav" role="tablist">
+      <button class="nav-tab active" role="tab" data-section="source"  onclick="switchTab(this)">Source</button>
+      <button class="nav-tab"        role="tab" data-section="install" onclick="switchTab(this)">Install</button>
+      <button class="nav-tab"        role="tab" data-section="repair"  onclick="switchTab(this)">Repair</button>
+    </nav>
+
+    <!-- ── MAIN CONTENT ──────────────────────────────── -->
+    <main class="site-body">
+
+      <!-- POST LIST PANELS -->
+      <!-- HOME PANEL — latest 3 posts across all sections -->
+      <div class="section-panel active" id="panel-home">
+        <h2>Recent posts <a class="archive-link" href="#" onclick="openArchive(null, event)">Browse archive →</a></h2>
+        <div class="post-card" onclick="openPost('repair',0)">
+          <div class="post-title">PC Won't Boot — Systematic Troubleshooting</div>
+          <div class="post-meta">22 Nov 2026 &nbsp;·&nbsp; Repair</div>
+          <div class="post-excerpt">A machine that won't POST is frustrating, but there's a logical order to diagnose the cause. We walk through every step from power supply testing to reseating RAM…</div>
+          <div class="read-more">Read more →</div>
+        </div>
+        <div class="post-card" onclick="openPost('install',0)">
+          <div class="post-title">Fresh Windows 11 Install — The Right Way</div>
+          <div class="post-meta">18 Nov 2026 &nbsp;·&nbsp; Install</div>
+          <div class="post-excerpt">Wiping and reinstalling Windows correctly avoids the bloat and leftover junk that accumulates over time. Step-by-step guide from ISO creation to first-boot configuration…</div>
+          <div class="read-more">Read more →</div>
+        </div>
+        <div class="post-card" onclick="openPost('source',0)">
+          <div class="post-title">Best SSDs in 2026 — What to Buy and Why</div>
+          <div class="post-meta">12 Nov 2026 &nbsp;·&nbsp; Source</div>
+          <div class="post-excerpt">The SSD market has matured rapidly. We break down the top performers across price brackets, covering NVMe Gen 4, Gen 5, and budget SATA options for every build type…</div>
+          <div class="read-more">Read more →</div>
+        </div>
+      </div>
+
+      <div class="section-panel" id="panel-source">
+        <h2><span class="section-back-group"><a class="section-back" href="#" onclick="goHome(); return false;">← Back</a><span class="section-back-sep">·</span><span class="section-label">Latest</span></span> <a class="archive-link" href="#" onclick="openArchive('source', event)">View archive →</a></h2>
+        <div class="post-card" onclick="openPost('source',0)">
+          <div class="post-title">Best SSDs in 2026 — What to Buy and Why</div>
+          <div class="post-meta">12 Nov 2026 &nbsp;·&nbsp; Source</div>
+          <div class="post-excerpt">The SSD market has matured rapidly. We break down the top performers across price brackets, covering NVMe Gen 4, Gen 5, and budget SATA options for every build type…</div>
+          <div class="read-more">Read more →</div>
+        </div>
+        <div class="post-card" onclick="openPost('source',1)">
+          <div class="post-title">Choosing the Right CPU: AMD vs Intel in 2026</div>
+          <div class="post-meta">28 Oct 2026 &nbsp;·&nbsp; Source</div>
+          <div class="post-excerpt">Platform decisions have long-term consequences. We compare current-generation desktop CPUs across gaming, workstation, and everyday use cases to help you decide…</div>
+          <div class="read-more">Read more →</div>
+        </div>
+        <div class="post-card" onclick="openPost('source',2)">
+          <div class="post-title">RAM Speed vs Capacity: What Actually Matters?</div>
+          <div class="post-meta">05 Oct 2026 &nbsp;·&nbsp; Source</div>
+          <div class="post-excerpt">More RAM or faster RAM? The answer depends entirely on your workload. We run benchmarks across gaming, video editing, and general multitasking to settle the debate…</div>
+          <div class="read-more">Read more →</div>
+        </div>
+      </div>
+
+      <div class="section-panel" id="panel-install">
+        <h2><span class="section-back-group"><a class="section-back" href="#" onclick="goHome(); return false;">← Back</a><span class="section-back-sep">·</span><span class="section-label">Latest</span></span> <a class="archive-link" href="#" onclick="openArchive('install', event)">View archive →</a></h2>
+        <div class="post-card" onclick="openPost('install',0)">
+          <div class="post-title">Fresh Windows 11 Install — The Right Way</div>
+          <div class="post-meta">18 Nov 2026 &nbsp;·&nbsp; Install</div>
+          <div class="post-excerpt">Wiping and reinstalling Windows correctly avoids the bloat and leftover junk that accumulates over time. Step-by-step guide from ISO creation to first-boot configuration…</div>
+          <div class="read-more">Read more →</div>
+        </div>
+        <div class="post-card" onclick="openPost('install',1)">
+          <div class="post-title">Ubuntu 24.04 on a New Machine — Getting Started</div>
+          <div class="post-meta">02 Nov 2026 &nbsp;·&nbsp; Install</div>
+          <div class="post-excerpt">Ubuntu LTS is a solid daily driver for developers and power users. We cover partitioning, driver installation, and the key post-install steps most guides skip…</div>
+          <div class="read-more">Read more →</div>
+        </div>
+        <div class="post-card" onclick="openPost('install',2)">
+          <div class="post-title">Setting Up a NAS with TrueNAS Scale</div>
+          <div class="post-meta">14 Oct 2026 &nbsp;·&nbsp; Install</div>
+          <div class="post-excerpt">A home NAS transforms how you store and access data. TrueNAS Scale brings ZFS reliability to a simple web UI. Here's how to go from bare metal to a running array…</div>
+          <div class="read-more">Read more →</div>
+        </div>
+      </div>
+
+      <div class="section-panel" id="panel-repair">
+        <h2><span class="section-back-group"><a class="section-back" href="#" onclick="goHome(); return false;">← Back</a><span class="section-back-sep">·</span><span class="section-label">Latest</span></span> <a class="archive-link" href="#" onclick="openArchive('repair', event)">View archive →</a></h2>
+        <div class="post-card" onclick="openPost('repair',0)">
+          <div class="post-title">PC Won't Boot — Systematic Troubleshooting</div>
+          <div class="post-meta">22 Nov 2026 &nbsp;·&nbsp; Repair</div>
+          <div class="post-excerpt">A machine that won't POST is frustrating, but there's a logical order to diagnose the cause. We walk through every step from power supply testing to reseating RAM…</div>
+          <div class="read-more">Read more →</div>
+        </div>
+        <div class="post-card" onclick="openPost('repair',1)">
+          <div class="post-title">Recovering Data from a Failing Drive</div>
+          <div class="post-meta">09 Nov 2026 &nbsp;·&nbsp; Repair</div>
+          <div class="post-excerpt">Before a drive dies completely there are warning signs — and tools to recover your data. Learn to read SMART data and use recovery utilities before it's too late…</div>
+          <div class="read-more">Read more →</div>
+        </div>
+        <div class="post-card" onclick="openPost('repair',2)">
+          <div class="post-title">Laptop Overheating? How to Reclean and Repaste</div>
+          <div class="post-meta">21 Oct 2026 &nbsp;·&nbsp; Repair</div>
+          <div class="post-excerpt">Thermal paste degrades and vents clog. A reclean and repaste is often the single highest-impact repair you can do on an aging laptop. Full walkthrough inside…</div>
+          <div class="read-more">Read more →</div>
+        </div>
+      </div>
+
+      <!-- FULL POST VIEW — replaces panel content -->
+      <div class="post-view" id="post-view">
+        <button class="back-btn" onclick="closePost()">← Back</button>
+        <div class="post-view-meta" id="post-view-meta"></div>
+        <h1 class="post-view-title" id="post-view-title"></h1>
+        <div class="post-view-body" id="post-view-body"></div>
+      </div>
+
+      <!-- UNDER CONSTRUCTION — shown when archive is unavailable -->
+      <div class="post-view" id="under-construction">
+        <button class="back-btn" onclick="closeOverlay()">← Back</button>
+        <div class="uc-inner">
+          <div class="uc-label">Archive</div>
+          <div class="uc-title">Coming<br><span>Soon</span></div>
+          <div class="uc-divider"></div>
+          <div class="uc-message">
+            This section is being built.<br>
+            Check back soon — it won't be long.
+          </div>
+        </div>
+      </div>
+
+      <!-- ABOUT PANEL -->
+      <div class="post-view" id="panel-about">
+        <button class="back-btn" onclick="closeOverlay()">← Back</button>
+        <div class="post-view-meta">About</div>
+        <h1 class="post-view-title">lkewtr</h1>
+        <div class="post-view-body">
+          <p>Make tech work for you</p>
+          <p>At lkewtr, we're all about getting your tech to work – simply and effectively. We focus on three core areas: choosing the right hardware, setting up software correctly, and fixing things when they break.</p>
+
+          <h3>Inspired by Water</h3>
+          <p>The name "lkewtr" is a play on "like water," reflecting our approach. Just like water adapts and flows around obstacles, technology should too. Rigid solutions rarely work; we prioritize finding practical, direct paths to solutions.</p>
+
+          <h3>What We Cover</h3>
+          <div class="about-list">
+            <div class="about-list-item"><span class="about-list-label">Source</span> We break down hardware decisions – from CPUs and storage to memory and peripherals – offering clear recommendations and explaining the "why" behind our choices.</div>
+            <div class="about-list-item"><span class="about-list-label">Install</span> We demystify software setup, guiding you through operating systems, servers, and tools. Our goal is to get you up and running quickly and efficiently.</div>
+            <div class="about-list-item"><span class="about-list-label">Repair</span> We're your go-to for troubleshooting and recovery. We'll help you diagnose problems and get back on track quickly.</div>
+          </div>
+
+          <h3>Built for Clarity</h3>
+          <p>Our site is intentionally simple. No distractions, no trackers, and minimal advertising (just a rotating banner). We write content that's genuinely useful – readability comes second.</p>
+
+          <h3>Ready to Take Control?</h3>
+          <div class="about-list">
+            <div class="about-list-item"><span class="about-list-label">Browse our resources</span> Find guides, FAQs, and information on sourcing hardware.</div>
+            <div class="about-list-item"><span class="about-list-label">Submit a ticket</span> Let us know how we can help you solve a specific problem.</div>
+            <div class="about-list-item"><span class="about-list-label">Contact us</span> Let's discuss your needs and how we can build a customized solution.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CONTACT PANEL -->
+      <div class="post-view" id="panel-contact">
+        <button class="back-btn" onclick="closeOverlay()">← Back</button>
+        <div class="post-view-meta">Contact</div>
+        <h1 class="post-view-title">Get in touch</h1>
+        <div class="contact-form">
+          <div class="form-row">
+            <label class="form-label" for="cf-name">Name</label>
+            <input class="form-input" type="text" id="cf-name" placeholder="Your name">
+          </div>
+          <div class="form-row">
+            <label class="form-label" for="cf-email">Email</label>
+            <input class="form-input" type="email" id="cf-email" placeholder="your@email.com">
+          </div>
+          <div class="form-row">
+            <label class="form-label" for="cf-subject">Subject</label>
+            <input class="form-input" type="text" id="cf-subject" placeholder="What is this about?">
+          </div>
+          <div class="form-row">
+            <label class="form-label" for="cf-message">Message</label>
+            <textarea class="form-input form-textarea" id="cf-message" placeholder="Your message…"></textarea>
+          </div>
+          <div class="form-row form-submit-row">
+            <button class="form-submit" onclick="submitContact(event)">Send message</button>
+          </div>
+          <div class="form-status" id="form-status"></div>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- ── FOOTER ─────────────────────────────────────── -->
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div class="footer-link-item">
+          <a class="footer-link" href="#" onclick="openOverlay('panel-about', event)">about</a>
+          <div class="footer-link-bar"></div>
+        </div>
+        <div class="footer-link-item">
+          <a href="#" onclick="goHome(); return false;" title="Home"><img class="footer-logo" src="data:image/svg+xml,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%20standalone%3D%22no%22%3F%3E%0A%3C%21--%20Created%20with%20Inkscape%20%28http%3A//www.inkscape.org/%29%20--%3E%0A%0A%3Csvg%0A%20%20%20version%3D%221.1%22%0A%20%20%20id%3D%22svg1%22%0A%20%20%20width%3D%22389%22%0A%20%20%20height%3D%22483%22%0A%20%20%20viewBox%3D%220%200%20389%20483%22%0A%20%20%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%0A%20%20%20xmlns%3Asvg%3D%22http%3A//www.w3.org/2000/svg%22%3E%0A%20%20%3Cdefs%0A%20%20%20%20%20id%3D%22defs1%22%20/%3E%0A%20%20%3Cg%0A%20%20%20%20%20id%3D%22g1%22%3E%0A%20%20%20%20%3Cpath%0A%20%20%20%20%20%20%20style%3D%22fill%3A%23e9e9e9%3Bfill-opacity%3A1%22%0A%20%20%20%20%20%20%20d%3D%22m%20115.41746%2C480.59305%20c%20-3.07492%2C-1.84325%20-5.00008%2C-4.17543%20-7.62784%2C-9.24054%20-1.93317%2C-3.72627%20-4.07942%2C-9.19882%20-4.76944%2C-12.16124%20-0.81221%2C-3.48705%20-1.0211%2C-8.18574%20-0.59242%2C-13.32598%200.36418%2C-4.36687%201.30068%2C-10.94308%202.08111%2C-14.61379%200.78043%2C-3.67071%202.7737%2C-11.17402%204.42949%2C-16.67402%201.6558%2C-5.5%205.43489%2C-16.3%208.39798%2C-24%202.9631%2C-7.7%205.72932%2C-14.9%206.14717%2C-16%200.41785%2C-1.1%20-0.2148%2C-0.48281%20-1.40589%2C1.37154%20-1.19108%2C1.85434%20-5.29363%2C9.42925%20-9.11676%2C16.83314%20-3.82314%2C7.40388%20-10.82917%2C19.61169%20-15.568936%2C27.12846%20-4.73978%2C7.51677%20-11.49703%2C18.44949%20-15.01612%2C24.29493%20-3.51908%2C5.84544%20-8.97391%2C13.72044%20-12.12184%2C17.5%20-4.07564%2C4.89341%20-7.34577%2C7.68346%20-11.35805%2C9.69058%20-4.369657%2C2.18591%20-8.001727%2C3.04931%20-16.179627%2C3.84615%20l%20-10.5451%2C1.0275%20-6.320368%2C-3.3237%20c%20-3.476203%2C-1.82803%20-9.042411%2C-6.03379%20-12.369351%2C-9.34614%20-3.326941%2C-3.31235%20-6.9807401%2C-8.04746%20-8.1195561%2C-10.52246%20-1.138815%2C-2.475%20-2.912689%2C-7.65%20-3.941941%2C-11.5%20-1.518831%2C-5.6813%20-1.863276%2C-10.48512%20-1.82841%2C-25.5%200.03084%2C-13.27899%200.541702%2C-21.18106%201.810192%2C-28%200.971978%2C-5.225%203.729491%2C-17.15%206.127807%2C-26.50001%202.3983161%2C-9.35%206.6457731%2C-24.52607%209.4387931%2C-33.7246%202.793021%2C-9.19853%207.126764%2C-22.24853%209.630541%2C-29%202.503777%2C-6.75147%207.294023%2C-18.74903%2010.644983%2C-26.66123%203.35097%2C-7.91221%2010.4452%2C-22.98721%2015.76496%2C-33.5%205.319757%2C-10.5128%2013.644037%2C-25.86417%2018.498397%2C-34.11417%204.85436%2C-8.25%2012.95593%2C-21.32011%2018.00349%2C-29.0447%205.04756%2C-7.72458%2012.866766%2C-18.67573%2017.376036%2C-24.33589%204.50927%2C-5.66017%2010.42545%2C-13.59116%2013.14707%2C-17.62443%202.72163%2C-4.03327%207.1283%2C-9.95711%209.79261%2C-13.16409%202.66432%2C-3.20699%206.27516%2C-7.8109%208.0241%2C-10.23092%202.71665%2C-3.75904%203.1799%2C-5.25949%203.1799%2C-10.299662%200%2C-3.41196%200.66382%2C-7.1833%201.57428%2C-8.94394%200.86585%2C-1.67437%205.32076%2C-7.04898%209.89979%2C-11.94358%204.65502%2C-4.97583%2012.96816%2C-15.84597%2018.85613%2C-24.65602%205.79185%2C-8.66622%2014.89351%2C-20.70676%2020.22591%2C-26.75676%205.33241%2C-6.05%2012.38581%2C-14.6%2015.67423%2C-18.9999997%203.28842%2C-4.4%206.12026%2C-8.15089%206.29296%2C-8.33532%200.17271%2C-0.18443%204.1162%2C0.82441%208.76332%2C2.24187%204.64712%2C1.41746%2012.07857%2C4.3937%2016.51434%2C6.61387%205.52324%2C2.7644697%209.48453%2C5.6154997%2012.56905%2C9.0462197%203.42293%2C3.80712%204.7716%2C6.2985%205.61882%2C10.37955%200.9261%2C4.46102%200.8445%2C6.02033%20-0.4821%2C9.21191%20-0.8783%2C2.11305%20-3.93911%2C6.24501%20-6.80182%2C9.18214%20-2.8627%2C2.93713%20-11.05491%2C10.42345%20-18.20491%2C16.63626%20-7.15%2C6.21281%20-17.30932%2C15.7347%20-22.57626%2C21.15976%20-5.26694%2C5.42506%20-12.93432%2C13.92904%20-17.03863%2C18.897752%20-4.10431%2C4.9687%20-11.52883%2C14.6437%20-16.49893%2C21.5%20-4.9701%2C6.85629%20-13.5953%2C19.28795%20-19.16711%2C27.6259%20-5.57181%2C8.33795%20-14.11948%2C21.83794%20-18.99482%2C29.99999%20-4.87534%2C8.16205%20-12.05618%2C20.69009%20-15.95743%2C27.84009%20-3.90124%2C7.15%20-9.79387%2C18.64092%20-13.09472%2C25.53538%20-4.34178%2C9.06864%20-6.73451%2C12.92765%20-8.65186%2C13.95379%20-2.215756%2C1.18584%20-2.787156%2C1.19698%20-3.484936%2C0.0679%20-0.57625%2C-0.9324%20-2.38385%2C1.86798%20-5.83916%2C9.04621%20-2.7525%2C5.71817%20-9.99104%2C20.66055%20-16.08564%2C33.20528%20-6.0946%2C12.54474%20-12.46965%2C26.94474%20-14.16678%2C32%20-1.69713%2C5.05527%20-3.340807%2C11.44139%20-3.652617%2C14.19139%20-0.31181%2C2.75%20-0.98532%2C5.81481%20-1.49667%2C6.81068%20-0.5655%2C1.10131%20-1.78473%2C1.68897%20-3.11209%2C1.5%20-1.65544%2C-0.23567%20-2.25857%2C-1.10314%20-2.4981%2C-3.59294%20-0.17367%2C-1.80524%200.33392%2C-5.49854%201.12798%2C-8.20734%200.98677%2C-3.36617%201.10418%2C-5.03827%200.37095%2C-5.28268%20-0.59003%2C-0.19668%20-1.09763%2C-2.12837%20-1.12798%2C-4.29266%20-0.0303%2C-2.16428%200.264%2C-5.96006%200.65412%2C-8.43506%200.47548%2C-3.01657%200.40561%2C-3.8407%20-0.21195%2C-2.5%20-0.50668%2C1.1%20-2.55788%2C6.275%20-4.55822%2C11.5%20-2.00034%2C5.225%20-4.54291%2C11.975%20-5.65017%2C15%20-1.10726%2C3.025%20-3.51558%2C13.375%20-5.35184%2C23%20-1.83625%2C9.62501%20-4.10897%2C20.87501%20-5.05048%2C25.00001%20-1.174175%2C5.1444%20-1.73928%2C12.2112%20-1.799237%2C22.5%20-0.06727%2C11.54384%200.338316%2C16.66104%201.760277%2C22.20905%201.84768%2C7.20905%201.84768%2C7.20905%204.25%2C5.63499%202.21006%2C-1.44804%202.40231%2C-1.43861%202.40231%2C0.11792%200%2C0.93057%201.36975%2C3.06168%203.04387%2C4.73581%202.74371%2C2.74371%203.45864%2C2.97755%207.25%2C2.37141%202.31338%2C-0.36985%206.09173%2C-1.77741%208.39635%2C-3.12791%202.304607%2C-1.3505%207.034537%2C-5.26475%2010.510957%2C-8.69834%203.47641%2C-3.43358%208.38073%2C-8.94288%2010.89849%2C-12.24288%202.51775%2C-3.3%206.6523%2C-9.15%209.18788%2C-13%202.53558%2C-3.85%207.15499%2C-9.7%2010.26536%2C-13%203.110366%2C-3.3%209.358586%2C-11.625%2013.884946%2C-18.5%204.52635%2C-6.875%2010.85789%2C-17.00001%2014.07009%2C-22.50001%203.2122%2C-5.5%208.10912%2C-12.3625%2010.88204%2C-15.25%202.77293%2C-2.8875%205.59038%2C-5.25%206.26101%2C-5.25%200.67062%2C0%206.27034%2C-9.7875%2012.44383%2C-21.75%206.17348%2C-11.9625%2015.02283%2C-28.26044%2019.66522%2C-36.21765%204.64239%2C-7.9572%209.31203%2C-16.67821%2010.37698%2C-19.38001%201.06495%2C-2.7018%201.74769%2C-5.10096%201.51718%2C-5.33146%20-0.2305%2C-0.2305%20-3.49051%2C0.29322%20-7.24448%2C1.16382%20-3.75396%2C0.8706%20-8.08187%2C1.30695%20-9.61756%2C0.96965%20-1.73444%2C-0.38095%20-2.79217%2C-1.26392%20-2.79217%2C-2.33086%200%2C-0.94468%201.69392%2C-3.37166%203.76426%2C-5.3933%202.20157%2C-2.14977%206.24918%2C-4.5714%209.75%2C-5.83329%204.31269%2C-1.55453%208.50129%2C-2.18798%2014.98574%2C-2.26634%207.80711%2C-0.0943%209.76292%2C0.24733%2014.75595%2C2.57775%203.28411%2C1.5328%207.82528%2C4.84476%2010.57459%2C7.71223%202.65024%2C2.76415%206.00661%2C7.45192%207.4586%2C10.41726%201.45198%2C2.96533%203.09492%2C7.36492%203.65097%2C9.77686%200.55605%2C2.41194%201.0176%2C7.53534%201.02568%2C11.38534%200.0113%2C5.38796%20-0.56055%2C8.23567%20-2.48315%2C12.36568%20-1.3738%2C2.95112%20-3.95417%2C7.22612%20-5.73416%2C9.5%20-1.77999%2C2.27388%20-9.02448%2C11.10932%20-16.09887%2C19.63432%20-7.07439%2C8.525%20-15.68041%2C19.55%20-19.12449%2C24.5%20-3.44408%2C4.95%20-9.25969%2C13.87133%20-12.92358%2C19.82518%20-3.66389%2C5.95386%20-7.92549%2C13.15386%20-9.47022%2C16.00001%20-1.54473%2C2.84615%20-5.13478%2C8.96749%20-7.97789%2C13.60297%20-2.8431%2C4.63548%20-8.02809%2C11.38936%20-11.5222%2C15.00862%20-3.4941%2C3.61926%20-7.48235%2C8.8266%20-8.86277%2C11.57185%20-1.38042%2C2.74526%20-3.68653%2C8.42308%20-5.12467%2C12.61738%20-1.43815%2C4.1943%20-3.50887%2C11.36927%20-4.6016%2C15.94437%20-1.09274%2C4.5751%20-1.80016%2C8.50499%20-1.57207%2C8.73309%200.2281%2C0.2281%201.90314%2C-0.63539%203.7223%2C-1.91886%201.81917%2C-1.28347%209.60758%2C-7.79468%2017.30758%2C-14.46935%207.7%2C-6.67466%2017.20211%2C-15.51142%2021.1158%2C-19.63724%203.91369%2C-4.12582%2016.36603%2C-19.42236%2027.67185%2C-33.99231%2011.30583%2C-14.56996%2024.33264%2C-30.80204%2028.94847%2C-36.0713%205.86165%2C-6.69143%209.8268%2C-12.43231%2013.14905%2C-19.03762%203.27764%2C-6.51662%205.07738%2C-11.59012%205.78821%2C-16.31698%200.56737%2C-3.7729%201.19644%2C-7.78228%201.39794%2C-8.90974%200.20149%2C-1.12746%201.84468%2C-2.75489%203.65152%2C-3.61651%201.80685%2C-0.86163%204.71557%2C-1.88076%206.46382%2C-2.26474%202.16658%2C-0.47586%207.16792%2C0.27762%2015.70798%2C2.36652%206.89114%2C1.68556%2013.43935%2C3.06466%2014.55157%2C3.06466%201.11223%2C0%203.44854%2C1.27441%205.19181%2C2.83201%202.64991%2C2.36769%203.24334%2C3.72156%203.6195%2C8.25755%200.40647%2C4.90148%200.0206%2C6.25994%20-3.99524%2C14.06425%20-2.44485%2C4.7513%20-6.7153%2C11.96993%20-9.48991%2C16.04141%20-2.7746%2C4.07148%20-6.61598%2C10.53066%20-8.53639%2C14.35373%20-1.92042%2C3.82309%20-4.28471%2C9.65106%20-5.25399%2C12.95106%20-0.96928%2C3.3%20-2.99867%2C9.15%20-4.50976%2C13%20-1.51109%2C3.85%20-3.54394%2C10.15%20-4.51746%2C14%20-1.05487%2C4.17172%20-1.80735%2C11.04039%20-1.8624%2C17%20-0.0924%2C10%20-0.0924%2C10%202.40763%2C9.72883%201.375%2C-0.14914%205.65%2C-1.77182%209.5%2C-3.60595%203.85%2C-1.83413%209.7%2C-5.3854%2013%2C-7.8917%203.3%2C-2.50631%209.55661%2C-8.08364%2013.90358%2C-12.39405%204.34697%2C-4.31042%2010.76718%2C-11.37916%2014.26714%2C-15.70831%203.49995%2C-4.32914%208.78646%2C-11.52914%2011.7478%2C-16%202.96135%2C-4.47085%207.89601%2C-12.62883%2010.96593%2C-18.12883%203.06992%2C-5.5%208.28467%2C-16.23108%2011.58834%2C-23.84685%203.30368%2C-7.61576%207.83494%2C-18.81534%2010.06948%2C-24.88794%202.23454%2C-6.0726%205.25636%2C-15.81652%206.71515%2C-21.65315%202.12966%2C-8.52074%202.65357%2C-12.9769%202.65853%2C-22.61206%200.004%2C-8.52261%20-0.41721%2C-12.85473%20-1.45489%2C-14.94955%20-0.80358%2C-1.62225%20-2.95675%2C-3.82055%20-4.78481%2C-4.88512%20-2.34847%2C-1.36762%20-6.21551%2C-2.13611%20-13.17892%2C-2.61902%20-5.65659%2C-0.39228%20-10.52451%2C-1.23894%20-11.42626%2C-1.98733%20-0.86409%2C-0.71713%20-1.57107%2C-2.37377%20-1.57107%2C-3.68142%200%2C-2.0457%200.48336%2C-2.37756%203.46298%2C-2.37756%201.90464%2C0%205.84214%2C-0.94743%208.75%2C-2.10539%204.20752%2C-1.67551%206.61418%2C-1.99448%2011.78702%2C-1.56221%203.575%2C0.29874%208.75953%2C1.28127%2011.52118%2C2.18339%202.76164%2C0.90212%207.14382%2C3.18063%209.73816%2C5.06335%202.59435%2C1.88271%205.80939%2C5.15358%207.14453%2C7.26858%201.33514%2C2.11501%203.14047%2C6.24617%204.01183%2C9.18037%200.87137%2C2.9342%201.5843%2C8.58865%201.5843%2C12.56544%200%2C3.97679%20-0.63768%2C10.53262%20-1.41706%2C14.5685%20-0.77939%2C4.03588%20-2.63389%2C10.71297%20-4.12112%2C14.83797%20-1.48723%2C4.125%20-5.18532%2C13.125%20-8.21797%2C20%20-3.03266%2C6.875%20-8.26565%2C16.92281%20-11.62888%2C22.32846%20-3.36324%2C5.40565%20-12.44642%2C18.27785%20-20.18487%2C28.60488%20-7.73844%2C10.32704%20-18.53844%2C24.12923%20-24%2C30.67155%20-5.46155%2C6.54232%20-15.7801%2C17.90948%20-22.9301%2C25.26037%20-7.15%2C7.35088%20-17.48147%2C16.74466%20-22.95882%2C20.87505%20-5.47736%2C4.13039%20-11.92717%2C8.35353%20-14.33291%2C9.38475%20-2.40574%2C1.03122%20-6.68729%2C1.87495%20-9.51453%2C1.87495%20-4.98819%2C0%20-5.31151%2C-0.17976%20-10.91516%2C-6.06861%20-3.17608%2C-3.33774%20-6.94596%2C-8.06723%20-8.37751%2C-10.50999%20-1.43155%2C-2.44275%20-3.226%2C-6.51206%20-3.98768%2C-9.04291%20-0.76167%2C-2.53085%20-1.86353%2C-8.45354%20-2.44856%2C-13.16153%20-0.7622%2C-6.13365%20-0.7493%2C-11.7522%200.0455%2C-19.82205%200.61007%2C-6.19414%201.92043%2C-14.66697%202.91191%2C-18.82849%200.99148%2C-4.16153%201.65635%2C-7.56642%201.47748%2C-7.56642%20-0.17887%2C0%20-2.10305%2C2.61797%20-4.27595%2C5.81771%20-2.1729%2C3.19974%20-8.44823%2C12.85323%20-13.94517%2C21.45218%20-5.49694%2C8.59896%20-12.60402%2C19.14349%20-15.7935%2C23.43229%20-3.18949%2C4.2888%20-13.24343%2C15.39166%20-22.3421%2C24.67302%20-9.09866%2C9.28137%20-20.78182%2C20.67365%20-25.96257%2C25.31618%20-5.18075%2C4.64253%20-11.12532%2C9.31119%20-13.21016%2C10.37479%20-2.08484%2C1.06361%20-5.72104%2C1.92957%20-8.08045%2C1.92437%20-2.7676%2C-0.006%20-5.74932%2C-0.88434%20-8.40282%2C-2.47497%20z%20M%2058.999824%2C314.57747%20c%200%2C-0.55%20-0.43622%2C-0.325%20-0.96938%2C0.5%20-0.53315%2C0.825%20-0.96937%2C1.95%20-0.96937%2C2.5%200%2C0.55%200.43622%2C0.325%200.96937%2C-0.5%200.53316%2C-0.825%200.96938%2C-1.95%200.96938%2C-2.5%20z%20m%200.69729%2C-3.16667%20c%20-0.36667%2C-0.36666%20-0.66667%2C-0.0667%20-0.66667%2C0.66667%200%2C0.73333%200.3%2C1.03333%200.66667%2C0.66667%200.36667%2C-0.36667%200.36667%2C-0.96667%200%2C-1.33334%20z%20m%201.33333%2C-1.83333%20c%200%2C-0.275%20-0.225%2C-0.5%20-0.5%2C-0.5%20-0.275%2C0%20-0.5%2C0.225%20-0.5%2C0.5%200%2C0.275%200.225%2C0.5%200.5%2C0.5%200.275%2C0%200.5%2C-0.225%200.5%2C-0.5%20z%20m%203.00869%2C-24.5128%20c%202.25246%2C-3.31689%204.74697%2C-7.8775%205.54335%2C-10.13468%200.79638%2C-2.25719%201.44796%2C-4.55679%201.44796%2C-5.11024%200%2C-0.55345%20-3.21994%2C4.34063%20-7.15544%2C10.87572%20-3.93549%2C6.5351%20-7.709217%2C13.232%20-8.386057%2C14.882%20-0.67685%2C1.65%20-1.54234%2C4.575%20-1.92332%2C6.5%20-0.51039%2C2.5789%200.23773%2C1.59437%202.84273%2C-3.74104%201.944467%2C-3.98258%205.378327%2C-9.95487%207.630777%2C-13.27176%20z%20m%2027.89922%2C-55.2372%20c%201.24037%2C-2.0625%201.9869%2C-3.75%201.65895%2C-3.75%20-0.32794%2C0%20-1.48796%2C1.4625%20-2.57782%2C3.25%20-1.08986%2C1.7875%20-1.98324%2C3.6625%20-1.9853%2C4.16667%20-0.002%2C0.50416%200.14312%2C0.72916%200.32261%2C0.5%200.17949%2C-0.22917%201.34119%2C-2.10417%202.58156%2C-4.16667%20z%20M%20151.78044%2C482.4152%20c%200.6875%2C-0.27741%201.8125%2C-0.27741%202.5%2C0%200.6875%2C0.27741%200.125%2C0.50439%20-1.25%2C0.50439%20-1.375%2C0%20-1.9375%2C-0.22698%20-1.25%2C-0.50439%20z%20m%2031%2C0%20c%200.6875%2C-0.27741%201.8125%2C-0.27741%202.5%2C0%200.6875%2C0.27741%200.125%2C0.50439%20-1.25%2C0.50439%20-1.375%2C0%20-1.9375%2C-0.22698%20-1.25%2C-0.50439%20z%20m%2032%2C0%20c%200.6875%2C-0.27741%201.8125%2C-0.27741%202.5%2C0%200.6875%2C0.27741%200.125%2C0.50439%20-1.25%2C0.50439%20-1.375%2C0%20-1.9375%2C-0.22698%20-1.25%2C-0.50439%20z%22%0A%20%20%20%20%20%20%20id%3D%22path1%22%20/%3E%0A%20%20%3C/g%3E%0A%3C/svg%3E%0A" alt="lw"></a>
+        </div>
+        <div class="footer-link-item">
+          <a class="footer-link" href="#" onclick="openOverlay('panel-contact', event)">contact</a>
+          <div class="footer-link-bar"></div>
+        </div>
+      </div>
+    </footer>
+
+  </div><!-- /.page-shell -->
+
+  <!-- JavaScript -->
+  
+
+
+</div>
+<div id="page-archive" class="page-wrap" style="display:none">
+
+
+  <div class="page-shell">
+
+    <!-- ── HERO — shorter than landing (20% height) ──── -->
+    <section class="hero arc-hero">
+      <div class="hero-bg"></div>
+      <div class="hero-center">
+        <div class="hero-slot">
+          <div class="tagline visible" id="tagline">
+            The landscape of technology is ever changing&hellip; Be like water, adapt.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── NAV ──────────────────────────────────────── -->
+    <nav class="site-nav" role="tablist">
+      <button class="nav-tab active" role="tab" data-section="source"  onclick="switchTab(this)">Source</button>
+      <button class="nav-tab"        role="tab" data-section="install" onclick="switchTab(this)">Install</button>
+      <button class="nav-tab"        role="tab" data-section="repair"  onclick="switchTab(this)">Repair</button>
+    </nav>
+
+    <!-- ── ARCHIVE BODY ───────────────────────────────── -->
+    <main class="site-body arc-body">
+
+      <!-- SEARCH BAR -->
+      <!-- Pagefind: replace div below with <div id="search"></div> when live -->
+      <!-- and initialise with: new PagefindUI({ element: '#search', showImages: false }); -->
+      <div class="arc-search-wrap">
+        <div class="arc-search-box">
+          <div class="arc-search-row">
+            <input
+              class="arc-search-input"
+              type="text"
+              id="arc-search-input"
+              placeholder="Search all posts…"
+              oninput="handleSearch(this.value)"
+              autocomplete="off"
+            >
+            <button class="arc-search-clear" id="arc-search-clear" onclick="clearSearch()" style="display:none">✕</button>
+          </div>
+          <div class="arc-search-bar"></div>
+        </div>
+      </div>
+
+      <!-- HOME PANEL — latest 3 posts across all sections (mirrors index) -->
+      <div class="arc-section active" id="panel-home">
+        <h2>Recent posts</h2>
+        <div class="post-card" onclick="openPost('repair',0)">
+          <div class="post-title">PC Won't Boot — Systematic Troubleshooting</div>
+          <div class="post-meta">22 Nov 2026 &nbsp;·&nbsp; Repair</div>
+          <div class="post-excerpt">A machine that won't POST is frustrating, but there's a logical order to diagnose the cause. We walk through every step from power supply testing to reseating RAM…</div>
+          <div class="read-more">Read more →</div>
+        </div>
+        <div class="post-card" onclick="openPost('install',0)">
+          <div class="post-title">Fresh Windows 11 Install — The Right Way</div>
+          <div class="post-meta">18 Nov 2026 &nbsp;·&nbsp; Install</div>
+          <div class="post-excerpt">Wiping and reinstalling Windows correctly avoids the bloat and leftover junk that accumulates over time. Step-by-step guide from ISO creation to first-boot configuration…</div>
+          <div class="read-more">Read more →</div>
+        </div>
+        <div class="post-card" onclick="openPost('source',0)">
+          <div class="post-title">Best SSDs in 2026 — What to Buy and Why</div>
+          <div class="post-meta">12 Nov 2026 &nbsp;·&nbsp; Source</div>
+          <div class="post-excerpt">The SSD market has matured rapidly. We break down the top performers across price brackets, covering NVMe Gen 4, Gen 5, and budget SATA options for every build type…</div>
+          <div class="read-more">Read more →</div>
+        </div>
+      </div>
+
+      <!-- SEARCH RESULTS (shown when search is active) -->
+      <div class="arc-section" id="search-results" style="display:none">
+        <div class="arc-results-list" id="arc-results-list"></div>
+      </div>
+
+      <!-- POST LIST PANELS -->
+      <div class="arc-section" id="panel-source">
+        <h2><span class="section-back-group"><a class="section-back" href="#" onclick="goArcHome(); return false;">← Back</a><span class="section-back-sep">·</span><span class="section-label">Source</span></span></h2>
+        <div class="arc-section-header">
+          <div class="arc-section-nav">
+            <button class="arc-page-btn" onclick="changePage('source', -1)">← Prev</button>
+            <span class="arc-page-info" id="source-page-info">Page 1 of 3</span><!-- Hugo: Page {{ .Paginator.PageNumber }} of {{ .Paginator.TotalPages }} -->
+            <button class="arc-page-btn" onclick="changePage('source', 1)">Next →</button>
+          </div>
+          <span class="arc-post-count">12 posts</span><!-- Hugo: {{ len .Pages }} posts -->
+        </div>
+
+        <!-- Hugo template: {{ range .Pages }} -->
+        <div class="arc-post-item">
+          <div class="arc-post-title">Best SSDs in 2026 — What to Buy and Why</div>
+          <div class="arc-post-meta">12 Nov 2026 &nbsp;·&nbsp; Source &nbsp;·&nbsp; <span class="arc-tag">storage</span> <span class="arc-tag">hardware</span></div>
+          <div class="arc-post-excerpt">The SSD market has matured rapidly. We break down the top performers across price brackets, covering NVMe Gen 4, Gen 5, and budget SATA options for every build type…</div>
+          <a class="arc-read-more" href="#">Read more</a><!-- Hugo: href="{{ .Permalink }}" -->
+        </div>
+
+        <div class="arc-post-item">
+          <div class="arc-post-title">Choosing the Right CPU: AMD vs Intel in 2026</div>
+          <div class="arc-post-meta">28 Oct 2026 &nbsp;·&nbsp; Source &nbsp;·&nbsp; <span class="arc-tag">cpu</span> <span class="arc-tag">hardware</span></div>
+          <div class="arc-post-excerpt">Platform decisions have long-term consequences. We compare current-generation desktop CPUs across gaming, workstation, and everyday use cases to help you decide…</div>
+          <a class="arc-read-more" href="#">Read more</a>
+        </div>
+
+        <div class="arc-post-item">
+          <div class="arc-post-title">RAM Speed vs Capacity: What Actually Matters?</div>
+          <div class="arc-post-meta">05 Oct 2026 &nbsp;·&nbsp; Source &nbsp;·&nbsp; <span class="arc-tag">memory</span> <span class="arc-tag">hardware</span></div>
+          <div class="arc-post-excerpt">More RAM or faster RAM? The answer depends entirely on your workload. We run benchmarks across gaming, video editing, and general multitasking to settle the debate…</div>
+          <a class="arc-read-more" href="#">Read more</a>
+        </div>
+
+        <div class="arc-post-item">
+          <div class="arc-post-title">GPU Buying Guide 2026 — Which Card for Which Budget</div>
+          <div class="arc-post-meta">20 Sep 2026 &nbsp;·&nbsp; Source &nbsp;·&nbsp; <span class="arc-tag">gpu</span> <span class="arc-tag">hardware</span></div>
+          <div class="arc-post-excerpt">Nvidia and AMD both have compelling lineups this generation. We cut through the marketing and lay out the best options at each price point for gaming and workstation use…</div>
+          <a class="arc-read-more" href="#">Read more</a>
+        </div>
+
+        <div class="arc-post-item">
+          <div class="arc-post-title">Motherboard Basics — What to Look For in 2026</div>
+          <div class="arc-post-meta">08 Sep 2026 &nbsp;·&nbsp; Source &nbsp;·&nbsp; <span class="arc-tag">motherboard</span> <span class="arc-tag">hardware</span></div>
+          <div class="arc-post-excerpt">The motherboard is the platform everything else depends on. We explain the key specs — chipset, VRM quality, connectivity — so you can make a confident purchase…</div>
+          <a class="arc-read-more" href="#">Read more</a>
+        </div>
+        <!-- Hugo template: {{ end }} -->
+
+      </div>
+
+      <div class="arc-section" id="panel-install">
+        <h2><span class="section-back-group"><a class="section-back" href="#" onclick="goArcHome(); return false;">← Back</a><span class="section-back-sep">·</span><span class="section-label">Install</span></span></h2>
+        <div class="arc-section-header">
+          <div class="arc-section-nav">
+            <button class="arc-page-btn" onclick="changePage('install', -1)">← Prev</button>
+            <span class="arc-page-info" id="install-page-info">Page 1 of 2</span>
+            <button class="arc-page-btn" onclick="changePage('install', 1)">Next →</button>
+          </div>
+          <span class="arc-post-count">9 posts</span>
+        </div>
+
+        <div class="arc-post-item">
+          <div class="arc-post-title">Fresh Windows 11 Install — The Right Way</div>
+          <div class="arc-post-meta">18 Nov 2026 &nbsp;·&nbsp; Install &nbsp;·&nbsp; <span class="arc-tag">windows</span> <span class="arc-tag">os</span></div>
+          <div class="arc-post-excerpt">Wiping and reinstalling Windows correctly avoids the bloat and leftover junk that accumulates over time. Step-by-step guide from ISO creation to first-boot configuration…</div>
+          <a class="arc-read-more" href="#">Read more</a>
+        </div>
+
+        <div class="arc-post-item">
+          <div class="arc-post-title">Ubuntu 24.04 on a New Machine — Getting Started</div>
+          <div class="arc-post-meta">02 Nov 2026 &nbsp;·&nbsp; Install &nbsp;·&nbsp; <span class="arc-tag">linux</span> <span class="arc-tag">ubuntu</span></div>
+          <div class="arc-post-excerpt">Ubuntu LTS is a solid daily driver for developers and power users. We cover partitioning, driver installation, and the key post-install steps most guides skip…</div>
+          <a class="arc-read-more" href="#">Read more</a>
+        </div>
+
+        <div class="arc-post-item">
+          <div class="arc-post-title">Setting Up a NAS with TrueNAS Scale</div>
+          <div class="arc-post-meta">14 Oct 2026 &nbsp;·&nbsp; Install &nbsp;·&nbsp; <span class="arc-tag">nas</span> <span class="arc-tag">storage</span></div>
+          <div class="arc-post-excerpt">A home NAS transforms how you store and access data. TrueNAS Scale brings ZFS reliability to a simple web UI. Here's how to go from bare metal to a running array…</div>
+          <a class="arc-read-more" href="#">Read more</a>
+        </div>
+
+        <div class="arc-post-item">
+          <div class="arc-post-title">Proxmox VE — Virtualisation for Home Labs</div>
+          <div class="arc-post-meta">30 Sep 2026 &nbsp;·&nbsp; Install &nbsp;·&nbsp; <span class="arc-tag">virtualisation</span> <span class="arc-tag">proxmox</span></div>
+          <div class="arc-post-excerpt">Proxmox turns any spare machine into a full virtualisation host. We walk through installation, network configuration, and creating your first VM from scratch…</div>
+          <a class="arc-read-more" href="#">Read more</a>
+        </div>
+
+        <div class="arc-post-item">
+          <div class="arc-post-title">Docker on Linux — A Practical Starting Point</div>
+          <div class="arc-post-meta">15 Sep 2026 &nbsp;·&nbsp; Install &nbsp;·&nbsp; <span class="arc-tag">docker</span> <span class="arc-tag">linux</span></div>
+          <div class="arc-post-excerpt">Docker simplifies deploying applications in consistent environments. We cover installation, basic commands, and setting up your first containerised service end to end…</div>
+          <a class="arc-read-more" href="#">Read more</a>
+        </div>
+
+      </div>
+
+      <div class="arc-section" id="panel-repair">
+        <h2><span class="section-back-group"><a class="section-back" href="#" onclick="goArcHome(); return false;">← Back</a><span class="section-back-sep">·</span><span class="section-label">Repair</span></span></h2>
+        <div class="arc-section-header">
+          <div class="arc-section-nav">
+            <button class="arc-page-btn" onclick="changePage('repair', -1)">← Prev</button>
+            <span class="arc-page-info" id="repair-page-info">Page 1 of 2</span>
+            <button class="arc-page-btn" onclick="changePage('repair', 1)">Next →</button>
+          </div>
+          <span class="arc-post-count">8 posts</span>
+        </div>
+
+        <div class="arc-post-item">
+          <div class="arc-post-title">PC Won't Boot — Systematic Troubleshooting</div>
+          <div class="arc-post-meta">22 Nov 2026 &nbsp;·&nbsp; Repair &nbsp;·&nbsp; <span class="arc-tag">troubleshooting</span> <span class="arc-tag">boot</span></div>
+          <div class="arc-post-excerpt">A machine that won't POST is frustrating, but there's a logical order to diagnose the cause. We walk through every step from power supply testing to reseating RAM…</div>
+          <a class="arc-read-more" href="#">Read more</a>
+        </div>
+
+        <div class="arc-post-item">
+          <div class="arc-post-title">Recovering Data from a Failing Drive</div>
+          <div class="arc-post-meta">09 Nov 2026 &nbsp;·&nbsp; Repair &nbsp;·&nbsp; <span class="arc-tag">data recovery</span> <span class="arc-tag">storage</span></div>
+          <div class="arc-post-excerpt">Before a drive dies completely there are warning signs — and tools to recover your data. Learn to read SMART data and use recovery utilities before it's too late…</div>
+          <a class="arc-read-more" href="#">Read more</a>
+        </div>
+
+        <div class="arc-post-item">
+          <div class="arc-post-title">Laptop Overheating? How to Reclean and Repaste</div>
+          <div class="arc-post-meta">21 Oct 2026 &nbsp;·&nbsp; Repair &nbsp;·&nbsp; <span class="arc-tag">thermal</span> <span class="arc-tag">laptop</span></div>
+          <div class="arc-post-excerpt">Thermal paste degrades and vents clog. A reclean and repaste is often the single highest-impact repair you can do on an aging laptop. Full walkthrough inside…</div>
+          <a class="arc-read-more" href="#">Read more</a>
+        </div>
+
+        <div class="arc-post-item">
+          <div class="arc-post-title">Blue Screen Errors — Reading and Fixing Stop Codes</div>
+          <div class="arc-post-meta">05 Oct 2026 &nbsp;·&nbsp; Repair &nbsp;·&nbsp; <span class="arc-tag">windows</span> <span class="arc-tag">bsod</span></div>
+          <div class="arc-post-excerpt">BSODs are Windows telling you something is seriously wrong. Stop codes point directly at the cause — once you know how to read them, most are straightforward to fix…</div>
+          <a class="arc-read-more" href="#">Read more</a>
+        </div>
+
+        <div class="arc-post-item">
+          <div class="arc-post-title">Network Drops and Slow Wi-Fi — A Diagnostic Guide</div>
+          <div class="arc-post-meta">18 Sep 2026 &nbsp;·&nbsp; Repair &nbsp;·&nbsp; <span class="arc-tag">networking</span> <span class="arc-tag">wifi</span></div>
+          <div class="arc-post-excerpt">Intermittent network issues are among the most frustrating to diagnose. We walk through a systematic approach — from driver issues to router configuration to ISP faults…</div>
+          <a class="arc-read-more" href="#">Read more</a>
+        </div>
+
+      </div>
+
+      <!-- ── OVERLAYS ──────────────────────────────────── -->
+      <div class="post-view" id="panel-about">
+        <button class="back-btn" onclick="closeOverlay()">← Back</button>
+        <div class="post-view-meta">About</div>
+        <h1 class="post-view-title">lkewtr</h1>
+        <div class="post-view-body">
+          <p>Make tech work for you</p>
+          <p>At lkewtr, we're all about getting your tech to work – simply and effectively. We focus on three core areas: choosing the right hardware, setting up software correctly, and fixing things when they break.</p>
+          <h3>Inspired by Water</h3>
+          <p>The name "lkewtr" is a play on "like water," reflecting our approach. Just like water adapts and flows around obstacles, technology should too.</p>
+          <h3>What We Cover</h3>
+          <div class="about-list">
+            <div class="about-list-item"><span class="about-list-label">Source</span> Hardware decisions – CPUs, storage, memory, peripherals.</div>
+            <div class="about-list-item"><span class="about-list-label">Install</span> Software setup – operating systems, servers, and tools.</div>
+            <div class="about-list-item"><span class="about-list-label">Repair</span> Troubleshooting and recovery – diagnose and fix.</div>
+          </div>
+          <h3>Built for Clarity</h3>
+          <p>No distractions, no trackers, minimal advertising. Content that's genuinely useful.</p>
+        </div>
+      </div>
+
+      <div class="post-view" id="panel-contact">
+        <button class="back-btn" onclick="closeOverlay()">← Back</button>
+        <div class="post-view-meta">Contact</div>
+        <h1 class="post-view-title">Get in touch</h1>
+        <div class="contact-form">
+          <div class="form-row">
+            <label class="form-label" for="cf-name">Name</label>
+            <input class="form-input" type="text" id="cf-name" placeholder="Your name">
+          </div>
+          <div class="form-row">
+            <label class="form-label" for="cf-email">Email</label>
+            <input class="form-input" type="email" id="cf-email" placeholder="your@email.com">
+          </div>
+          <div class="form-row">
+            <label class="form-label" for="cf-subject">Subject</label>
+            <input class="form-input" type="text" id="cf-subject" placeholder="What is this about?">
+          </div>
+          <div class="form-row">
+            <label class="form-label" for="cf-message">Message</label>
+            <textarea class="form-input form-textarea" id="cf-message" placeholder="Your message…"></textarea>
+          </div>
+          <div class="form-row form-submit-row">
+            <button class="form-submit" onclick="submitContact(event)">Send message</button>
+          </div>
+          <div class="form-status" id="form-status"></div>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- ── FOOTER ─────────────────────────────────────── -->
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div class="footer-link-item">
+          <a class="footer-link" href="#" onclick="openOverlay('panel-about', event)">about</a>
+          <div class="footer-link-bar"></div>
+        </div>
+        <div class="footer-link-item">
+          <a href="index.html" title="Home"><img class="footer-logo" src="data:image/svg+xml,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%20standalone%3D%22no%22%3F%3E%0A%3C%21--%20Created%20with%20Inkscape%20%28http%3A//www.inkscape.org/%29%20--%3E%0A%0A%3Csvg%0A%20%20%20version%3D%221.1%22%0A%20%20%20id%3D%22svg1%22%0A%20%20%20width%3D%22389%22%0A%20%20%20height%3D%22483%22%0A%20%20%20viewBox%3D%220%200%20389%20483%22%0A%20%20%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%0A%20%20%20xmlns%3Asvg%3D%22http%3A//www.w3.org/2000/svg%22%3E%0A%20%20%3Cdefs%0A%20%20%20%20%20id%3D%22defs1%22%20/%3E%0A%20%20%3Cg%0A%20%20%20%20%20id%3D%22g1%22%3E%0A%20%20%20%20%3Cpath%0A%20%20%20%20%20%20%20style%3D%22fill%3A%23e9e9e9%3Bfill-opacity%3A1%22%0A%20%20%20%20%20%20%20d%3D%22m%20115.41746%2C480.59305%20c%20-3.07492%2C-1.84325%20-5.00008%2C-4.17543%20-7.62784%2C-9.24054%20-1.93317%2C-3.72627%20-4.07942%2C-9.19882%20-4.76944%2C-12.16124%20-0.81221%2C-3.48705%20-1.0211%2C-8.18574%20-0.59242%2C-13.32598%200.36418%2C-4.36687%201.30068%2C-10.94308%202.08111%2C-14.61379%200.78043%2C-3.67071%202.7737%2C-11.17402%204.42949%2C-16.67402%201.6558%2C-5.5%205.43489%2C-16.3%208.39798%2C-24%202.9631%2C-7.7%205.72932%2C-14.9%206.14717%2C-16%200.41785%2C-1.1%20-0.2148%2C-0.48281%20-1.40589%2C1.37154%20-1.19108%2C1.85434%20-5.29363%2C9.42925%20-9.11676%2C16.83314%20-3.82314%2C7.40388%20-10.82917%2C19.61169%20-15.568936%2C27.12846%20-4.73978%2C7.51677%20-11.49703%2C18.44949%20-15.01612%2C24.29493%20-3.51908%2C5.84544%20-8.97391%2C13.72044%20-12.12184%2C17.5%20-4.07564%2C4.89341%20-7.34577%2C7.68346%20-11.35805%2C9.69058%20-4.369657%2C2.18591%20-8.001727%2C3.04931%20-16.179627%2C3.84615%20l%20-10.5451%2C1.0275%20-6.320368%2C-3.3237%20c%20-3.476203%2C-1.82803%20-9.042411%2C-6.03379%20-12.369351%2C-9.34614%20-3.326941%2C-3.31235%20-6.9807401%2C-8.04746%20-8.1195561%2C-10.52246%20-1.138815%2C-2.475%20-2.912689%2C-7.65%20-3.941941%2C-11.5%20-1.518831%2C-5.6813%20-1.863276%2C-10.48512%20-1.82841%2C-25.5%200.03084%2C-13.27899%200.541702%2C-21.18106%201.810192%2C-28%200.971978%2C-5.225%203.729491%2C-17.15%206.127807%2C-26.50001%202.3983161%2C-9.35%206.6457731%2C-24.52607%209.4387931%2C-33.7246%202.793021%2C-9.19853%207.126764%2C-22.24853%209.630541%2C-29%202.503777%2C-6.75147%207.294023%2C-18.74903%2010.644983%2C-26.66123%203.35097%2C-7.91221%2010.4452%2C-22.98721%2015.76496%2C-33.5%205.319757%2C-10.5128%2013.644037%2C-25.86417%2018.498397%2C-34.11417%204.85436%2C-8.25%2012.95593%2C-21.32011%2018.00349%2C-29.0447%205.04756%2C-7.72458%2012.866766%2C-18.67573%2017.376036%2C-24.33589%204.50927%2C-5.66017%2010.42545%2C-13.59116%2013.14707%2C-17.62443%202.72163%2C-4.03327%207.1283%2C-9.95711%209.79261%2C-13.16409%202.66432%2C-3.20699%206.27516%2C-7.8109%208.0241%2C-10.23092%202.71665%2C-3.75904%203.1799%2C-5.25949%203.1799%2C-10.299662%200%2C-3.41196%200.66382%2C-7.1833%201.57428%2C-8.94394%200.86585%2C-1.67437%205.32076%2C-7.04898%209.89979%2C-11.94358%204.65502%2C-4.97583%2012.96816%2C-15.84597%2018.85613%2C-24.65602%205.79185%2C-8.66622%2014.89351%2C-20.70676%2020.22591%2C-26.75676%205.33241%2C-6.05%2012.38581%2C-14.6%2015.67423%2C-18.9999997%203.28842%2C-4.4%206.12026%2C-8.15089%206.29296%2C-8.33532%200.17271%2C-0.18443%204.1162%2C0.82441%208.76332%2C2.24187%204.64712%2C1.41746%2012.07857%2C4.3937%2016.51434%2C6.61387%205.52324%2C2.7644697%209.48453%2C5.6154997%2012.56905%2C9.0462197%203.42293%2C3.80712%204.7716%2C6.2985%205.61882%2C10.37955%200.9261%2C4.46102%200.8445%2C6.02033%20-0.4821%2C9.21191%20-0.8783%2C2.11305%20-3.93911%2C6.24501%20-6.80182%2C9.18214%20-2.8627%2C2.93713%20-11.05491%2C10.42345%20-18.20491%2C16.63626%20-7.15%2C6.21281%20-17.30932%2C15.7347%20-22.57626%2C21.15976%20-5.26694%2C5.42506%20-12.93432%2C13.92904%20-17.03863%2C18.897752%20-4.10431%2C4.9687%20-11.52883%2C14.6437%20-16.49893%2C21.5%20-4.9701%2C6.85629%20-13.5953%2C19.28795%20-19.16711%2C27.6259%20-5.57181%2C8.33795%20-14.11948%2C21.83794%20-18.99482%2C29.99999%20-4.87534%2C8.16205%20-12.05618%2C20.69009%20-15.95743%2C27.84009%20-3.90124%2C7.15%20-9.79387%2C18.64092%20-13.09472%2C25.53538%20-4.34178%2C9.06864%20-6.73451%2C12.92765%20-8.65186%2C13.95379%20-2.215756%2C1.18584%20-2.787156%2C1.19698%20-3.484936%2C0.0679%20-0.57625%2C-0.9324%20-2.38385%2C1.86798%20-5.83916%2C9.04621%20-2.7525%2C5.71817%20-9.99104%2C20.66055%20-16.08564%2C33.20528%20-6.0946%2C12.54474%20-12.46965%2C26.94474%20-14.16678%2C32%20-1.69713%2C5.05527%20-3.340807%2C11.44139%20-3.652617%2C14.19139%20-0.31181%2C2.75%20-0.98532%2C5.81481%20-1.49667%2C6.81068%20-0.5655%2C1.10131%20-1.78473%2C1.68897%20-3.11209%2C1.5%20-1.65544%2C-0.23567%20-2.25857%2C-1.10314%20-2.4981%2C-3.59294%20-0.17367%2C-1.80524%200.33392%2C-5.49854%201.12798%2C-8.20734%200.98677%2C-3.36617%201.10418%2C-5.03827%200.37095%2C-5.28268%20-0.59003%2C-0.19668%20-1.09763%2C-2.12837%20-1.12798%2C-4.29266%20-0.0303%2C-2.16428%200.264%2C-5.96006%200.65412%2C-8.43506%200.47548%2C-3.01657%200.40561%2C-3.8407%20-0.21195%2C-2.5%20-0.50668%2C1.1%20-2.55788%2C6.275%20-4.55822%2C11.5%20-2.00034%2C5.225%20-4.54291%2C11.975%20-5.65017%2C15%20-1.10726%2C3.025%20-3.51558%2C13.375%20-5.35184%2C23%20-1.83625%2C9.62501%20-4.10897%2C20.87501%20-5.05048%2C25.00001%20-1.174175%2C5.1444%20-1.73928%2C12.2112%20-1.799237%2C22.5%20-0.06727%2C11.54384%200.338316%2C16.66104%201.760277%2C22.20905%201.84768%2C7.20905%201.84768%2C7.20905%204.25%2C5.63499%202.21006%2C-1.44804%202.40231%2C-1.43861%202.40231%2C0.11792%200%2C0.93057%201.36975%2C3.06168%203.04387%2C4.73581%202.74371%2C2.74371%203.45864%2C2.97755%207.25%2C2.37141%202.31338%2C-0.36985%206.09173%2C-1.77741%208.39635%2C-3.12791%202.304607%2C-1.3505%207.034537%2C-5.26475%2010.510957%2C-8.69834%203.47641%2C-3.43358%208.38073%2C-8.94288%2010.89849%2C-12.24288%202.51775%2C-3.3%206.6523%2C-9.15%209.18788%2C-13%202.53558%2C-3.85%207.15499%2C-9.7%2010.26536%2C-13%203.110366%2C-3.3%209.358586%2C-11.625%2013.884946%2C-18.5%204.52635%2C-6.875%2010.85789%2C-17.00001%2014.07009%2C-22.50001%203.2122%2C-5.5%208.10912%2C-12.3625%2010.88204%2C-15.25%202.77293%2C-2.8875%205.59038%2C-5.25%206.26101%2C-5.25%200.67062%2C0%206.27034%2C-9.7875%2012.44383%2C-21.75%206.17348%2C-11.9625%2015.02283%2C-28.26044%2019.66522%2C-36.21765%204.64239%2C-7.9572%209.31203%2C-16.67821%2010.37698%2C-19.38001%201.06495%2C-2.7018%201.74769%2C-5.10096%201.51718%2C-5.33146%20-0.2305%2C-0.2305%20-3.49051%2C0.29322%20-7.24448%2C1.16382%20-3.75396%2C0.8706%20-8.08187%2C1.30695%20-9.61756%2C0.96965%20-1.73444%2C-0.38095%20-2.79217%2C-1.26392%20-2.79217%2C-2.33086%200%2C-0.94468%201.69392%2C-3.37166%203.76426%2C-5.3933%202.20157%2C-2.14977%206.24918%2C-4.5714%209.75%2C-5.83329%204.31269%2C-1.55453%208.50129%2C-2.18798%2014.98574%2C-2.26634%207.80711%2C-0.0943%209.76292%2C0.24733%2014.75595%2C2.57775%203.28411%2C1.5328%207.82528%2C4.84476%2010.57459%2C7.71223%202.65024%2C2.76415%206.00661%2C7.45192%207.4586%2C10.41726%201.45198%2C2.96533%203.09492%2C7.36492%203.65097%2C9.77686%200.55605%2C2.41194%201.0176%2C7.53534%201.02568%2C11.38534%200.0113%2C5.38796%20-0.56055%2C8.23567%20-2.48315%2C12.36568%20-1.3738%2C2.95112%20-3.95417%2C7.22612%20-5.73416%2C9.5%20-1.77999%2C2.27388%20-9.02448%2C11.10932%20-16.09887%2C19.63432%20-7.07439%2C8.525%20-15.68041%2C19.55%20-19.12449%2C24.5%20-3.44408%2C4.95%20-9.25969%2C13.87133%20-12.92358%2C19.82518%20-3.66389%2C5.95386%20-7.92549%2C13.15386%20-9.47022%2C16.00001%20-1.54473%2C2.84615%20-5.13478%2C8.96749%20-7.97789%2C13.60297%20-2.8431%2C4.63548%20-8.02809%2C11.38936%20-11.5222%2C15.00862%20-3.4941%2C3.61926%20-7.48235%2C8.8266%20-8.86277%2C11.57185%20-1.38042%2C2.74526%20-3.68653%2C8.42308%20-5.12467%2C12.61738%20-1.43815%2C4.1943%20-3.50887%2C11.36927%20-4.6016%2C15.94437%20-1.09274%2C4.5751%20-1.80016%2C8.50499%20-1.57207%2C8.73309%200.2281%2C0.2281%201.90314%2C-0.63539%203.7223%2C-1.91886%201.81917%2C-1.28347%209.60758%2C-7.79468%2017.30758%2C-14.46935%207.7%2C-6.67466%2017.20211%2C-15.51142%2021.1158%2C-19.63724%203.91369%2C-4.12582%2016.36603%2C-19.42236%2027.67185%2C-33.99231%2011.30583%2C-14.56996%2024.33264%2C-30.80204%2028.94847%2C-36.0713%205.86165%2C-6.69143%209.8268%2C-12.43231%2013.14905%2C-19.03762%203.27764%2C-6.51662%205.07738%2C-11.59012%205.78821%2C-16.31698%200.56737%2C-3.7729%201.19644%2C-7.78228%201.39794%2C-8.90974%200.20149%2C-1.12746%201.84468%2C-2.75489%203.65152%2C-3.61651%201.80685%2C-0.86163%204.71557%2C-1.88076%206.46382%2C-2.26474%202.16658%2C-0.47586%207.16792%2C0.27762%2015.70798%2C2.36652%206.89114%2C1.68556%2013.43935%2C3.06466%2014.55157%2C3.06466%201.11223%2C0%203.44854%2C1.27441%205.19181%2C2.83201%202.64991%2C2.36769%203.24334%2C3.72156%203.6195%2C8.25755%200.40647%2C4.90148%200.0206%2C6.25994%20-3.99524%2C14.06425%20-2.44485%2C4.7513%20-6.7153%2C11.96993%20-9.48991%2C16.04141%20-2.7746%2C4.07148%20-6.61598%2C10.53066%20-8.53639%2C14.35373%20-1.92042%2C3.82309%20-4.28471%2C9.65106%20-5.25399%2C12.95106%20-0.96928%2C3.3%20-2.99867%2C9.15%20-4.50976%2C13%20-1.51109%2C3.85%20-3.54394%2C10.15%20-4.51746%2C14%20-1.05487%2C4.17172%20-1.80735%2C11.04039%20-1.8624%2C17%20-0.0924%2C10%20-0.0924%2C10%202.40763%2C9.72883%201.375%2C-0.14914%205.65%2C-1.77182%209.5%2C-3.60595%203.85%2C-1.83413%209.7%2C-5.3854%2013%2C-7.8917%203.3%2C-2.50631%209.55661%2C-8.08364%2013.90358%2C-12.39405%204.34697%2C-4.31042%2010.76718%2C-11.37916%2014.26714%2C-15.70831%203.49995%2C-4.32914%208.78646%2C-11.52914%2011.7478%2C-16%202.96135%2C-4.47085%207.89601%2C-12.62883%2010.96593%2C-18.12883%203.06992%2C-5.5%208.28467%2C-16.23108%2011.58834%2C-23.84685%203.30368%2C-7.61576%207.83494%2C-18.81534%2010.06948%2C-24.88794%202.23454%2C-6.0726%205.25636%2C-15.81652%206.71515%2C-21.65315%202.12966%2C-8.52074%202.65357%2C-12.9769%202.65853%2C-22.61206%200.004%2C-8.52261%20-0.41721%2C-12.85473%20-1.45489%2C-14.94955%20-0.80358%2C-1.62225%20-2.95675%2C-3.82055%20-4.78481%2C-4.88512%20-2.34847%2C-1.36762%20-6.21551%2C-2.13611%20-13.17892%2C-2.61902%20-5.65659%2C-0.39228%20-10.52451%2C-1.23894%20-11.42626%2C-1.98733%20-0.86409%2C-0.71713%20-1.57107%2C-2.37377%20-1.57107%2C-3.68142%200%2C-2.0457%200.48336%2C-2.37756%203.46298%2C-2.37756%201.90464%2C0%205.84214%2C-0.94743%208.75%2C-2.10539%204.20752%2C-1.67551%206.61418%2C-1.99448%2011.78702%2C-1.56221%203.575%2C0.29874%208.75953%2C1.28127%2011.52118%2C2.18339%202.76164%2C0.90212%207.14382%2C3.18063%209.73816%2C5.06335%202.59435%2C1.88271%205.80939%2C5.15358%207.14453%2C7.26858%201.33514%2C2.11501%203.14047%2C6.24617%204.01183%2C9.18037%200.87137%2C2.9342%201.5843%2C8.58865%201.5843%2C12.56544%200%2C3.97679%20-0.63768%2C10.53262%20-1.41706%2C14.5685%20-0.77939%2C4.03588%20-2.63389%2C10.71297%20-4.12112%2C14.83797%20-1.48723%2C4.125%20-5.18532%2C13.125%20-8.21797%2C20%20-3.03266%2C6.875%20-8.26565%2C16.92281%20-11.62888%2C22.32846%20-3.36324%2C5.40565%20-12.44642%2C18.27785%20-20.18487%2C28.60488%20-7.73844%2C10.32704%20-18.53844%2C24.12923%20-24%2C30.67155%20-5.46155%2C6.54232%20-15.7801%2C17.90948%20-22.9301%2C25.26037%20-7.15%2C7.35088%20-17.48147%2C16.74466%20-22.95882%2C20.87505%20-5.47736%2C4.13039%20-11.92717%2C8.35353%20-14.33291%2C9.38475%20-2.40574%2C1.03122%20-6.68729%2C1.87495%20-9.51453%2C1.87495%20-4.98819%2C0%20-5.31151%2C-0.17976%20-10.91516%2C-6.06861%20-3.17608%2C-3.33774%20-6.94596%2C-8.06723%20-8.37751%2C-10.50999%20-1.43155%2C-2.44275%20-3.226%2C-6.51206%20-3.98768%2C-9.04291%20-0.76167%2C-2.53085%20-1.86353%2C-8.45354%20-2.44856%2C-13.16153%20-0.7622%2C-6.13365%20-0.7493%2C-11.7522%200.0455%2C-19.82205%200.61007%2C-6.19414%201.92043%2C-14.66697%202.91191%2C-18.82849%200.99148%2C-4.16153%201.65635%2C-7.56642%201.47748%2C-7.56642%20-0.17887%2C0%20-2.10305%2C2.61797%20-4.27595%2C5.81771%20-2.1729%2C3.19974%20-8.44823%2C12.85323%20-13.94517%2C21.45218%20-5.49694%2C8.59896%20-12.60402%2C19.14349%20-15.7935%2C23.43229%20-3.18949%2C4.2888%20-13.24343%2C15.39166%20-22.3421%2C24.67302%20-9.09866%2C9.28137%20-20.78182%2C20.67365%20-25.96257%2C25.31618%20-5.18075%2C4.64253%20-11.12532%2C9.31119%20-13.21016%2C10.37479%20-2.08484%2C1.06361%20-5.72104%2C1.92957%20-8.08045%2C1.92437%20-2.7676%2C-0.006%20-5.74932%2C-0.88434%20-8.40282%2C-2.47497%20z%20M%2058.999824%2C314.57747%20c%200%2C-0.55%20-0.43622%2C-0.325%20-0.96938%2C0.5%20-0.53315%2C0.825%20-0.96937%2C1.95%20-0.96937%2C2.5%200%2C0.55%200.43622%2C0.325%200.96937%2C-0.5%200.53316%2C-0.825%200.96938%2C-1.95%200.96938%2C-2.5%20z%20m%200.69729%2C-3.16667%20c%20-0.36667%2C-0.36666%20-0.66667%2C-0.0667%20-0.66667%2C0.66667%200%2C0.73333%200.3%2C1.03333%200.66667%2C0.66667%200.36667%2C-0.36667%200.36667%2C-0.96667%200%2C-1.33334%20z%20m%201.33333%2C-1.83333%20c%200%2C-0.275%20-0.225%2C-0.5%20-0.5%2C-0.5%20-0.275%2C0%20-0.5%2C0.225%20-0.5%2C0.5%200%2C0.275%200.225%2C0.5%200.5%2C0.5%200.275%2C0%200.5%2C-0.225%200.5%2C-0.5%20z%20m%203.00869%2C-24.5128%20c%202.25246%2C-3.31689%204.74697%2C-7.8775%205.54335%2C-10.13468%200.79638%2C-2.25719%201.44796%2C-4.55679%201.44796%2C-5.11024%200%2C-0.55345%20-3.21994%2C4.34063%20-7.15544%2C10.87572%20-3.93549%2C6.5351%20-7.709217%2C13.232%20-8.386057%2C14.882%20-0.67685%2C1.65%20-1.54234%2C4.575%20-1.92332%2C6.5%20-0.51039%2C2.5789%200.23773%2C1.59437%202.84273%2C-3.74104%201.944467%2C-3.98258%205.378327%2C-9.95487%207.630777%2C-13.27176%20z%20m%2027.89922%2C-55.2372%20c%201.24037%2C-2.0625%201.9869%2C-3.75%201.65895%2C-3.75%20-0.32794%2C0%20-1.48796%2C1.4625%20-2.57782%2C3.25%20-1.08986%2C1.7875%20-1.98324%2C3.6625%20-1.9853%2C4.16667%20-0.002%2C0.50416%200.14312%2C0.72916%200.32261%2C0.5%200.17949%2C-0.22917%201.34119%2C-2.10417%202.58156%2C-4.16667%20z%20M%20151.78044%2C482.4152%20c%200.6875%2C-0.27741%201.8125%2C-0.27741%202.5%2C0%200.6875%2C0.27741%200.125%2C0.50439%20-1.25%2C0.50439%20-1.375%2C0%20-1.9375%2C-0.22698%20-1.25%2C-0.50439%20z%20m%2031%2C0%20c%200.6875%2C-0.27741%201.8125%2C-0.27741%202.5%2C0%200.6875%2C0.27741%200.125%2C0.50439%20-1.25%2C0.50439%20-1.375%2C0%20-1.9375%2C-0.22698%20-1.25%2C-0.50439%20z%20m%2032%2C0%20c%200.6875%2C-0.27741%201.8125%2C-0.27741%202.5%2C0%200.6875%2C0.27741%200.125%2C0.50439%20-1.25%2C0.50439%20-1.375%2C0%20-1.9375%2C-0.22698%20-1.25%2C-0.50439%20z%22%0A%20%20%20%20%20%20%20id%3D%22path1%22%20/%3E%0A%20%20%3C/g%3E%0A%3C/svg%3E%0A" alt="lw"></a>
+        </div>
+        <div class="footer-link-item">
+          <a class="footer-link" href="#" onclick="openOverlay('panel-contact', event)">contact</a>
+          <div class="footer-link-bar"></div>
+        </div>
+      </div>
+    </footer>
+
+  </div><!-- /.page-shell -->
+
+  
+  
+
+
+</div>
+<script>
+/* ─────────────────────────────────────────────────────
+   main.js — Ad rotation, nav tabs, post view, overlays
+   ───────────────────────────────────────────────────── */
+
+// ── TIMINGS ───────────────────────────────────────────
+const TAGLINE_MS = 6000;
+const AD_MS      = 3000;
+const FADE_MS    =  600;
+
+// ── AD SOURCE ─────────────────────────────────────────
+// Each ad: { src, alt?, regions: [...] }
+// Region shape:
+//   { x, y, w, h }                 — geometry in % of the ad slot (0–100)
+//   { action: 'home' }             — calls goHome()
+//   { action: 'post', section, index }  — calls openPost(section, index)
+//   { action: 'overlay', id }      — calls openOverlay(id)
+//   { action: 'archive', section } — calls openArchive(section)
+//   { action: 'url', url, target? } — opens external URL (default target '_blank')
+//   { label? }                     — accessible label for the region (recommended)
+let adFiles = [
+  {
+    src: 'data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%221080%22%20height%3D%22576%22%20viewBox%3D%220%200%201080%20576%22%3E%3Crect%20width%3D%221080%22%20height%3D%22576%22%20fill%3D%22%232d6a4f%22/%3E%3Crect%20x%3D%220%22%20y%3D%220%22%20width%3D%221080%22%20height%3D%224%22%20fill%3D%22%232db8ad%22%20opacity%3D%220.8%22/%3E%3Crect%20x%3D%220%22%20y%3D%22572%22%20width%3D%221080%22%20height%3D%224%22%20fill%3D%22%232db8ad%22%20opacity%3D%220.8%22/%3E%3Ctext%20x%3D%22540%22%20y%3D%22260%22%20font-family%3D%22sans-serif%22%20font-weight%3D%22700%22%20font-size%3D%2272%22%20fill%3D%22%235cccc3%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%226%22%3EAd%20One%20%E2%80%94%20lkewtr%3C/text%3E%3Ctext%20x%3D%22540%22%20y%3D%22330%22%20font-family%3D%22sans-serif%22%20font-size%3D%2232%22%20fill%3D%22rgba%28255%2C255%2C255%2C0.4%29%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%223%22%3Eyour-ad-here.com%3C/text%3E%3Ctext%20x%3D%22540%22%20y%3D%22480%22%20font-family%3D%22sans-serif%22%20font-size%3D%2220%22%20fill%3D%22rgba%28255%2C255%2C255%2C0.2%29%22%20text-anchor%3D%22middle%22%3Ereplace%20with%20your%20image%20%E2%80%94%20drop%20into%20/ads/%20folder%3C/text%3E%3C/svg%3E',
+    alt: 'Advertisement — Ad One',
+    regions: []
+  },
+  {
+    src: 'data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%221080%22%20height%3D%22576%22%20viewBox%3D%220%200%201080%20576%22%3E%3Crect%20width%3D%221080%22%20height%3D%22576%22%20fill%3D%22%231a4a5a%22/%3E%3Crect%20x%3D%220%22%20y%3D%220%22%20width%3D%221080%22%20height%3D%224%22%20fill%3D%22%232db8ad%22%20opacity%3D%220.8%22/%3E%3Crect%20x%3D%220%22%20y%3D%22572%22%20width%3D%221080%22%20height%3D%224%22%20fill%3D%22%232db8ad%22%20opacity%3D%220.8%22/%3E%3Ctext%20x%3D%22540%22%20y%3D%22260%22%20font-family%3D%22sans-serif%22%20font-weight%3D%22700%22%20font-size%3D%2272%22%20fill%3D%22%235cccc3%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%226%22%3EAd%20Two%20%E2%80%94%20lkewtr%3C/text%3E%3Ctext%20x%3D%22540%22%20y%3D%22330%22%20font-family%3D%22sans-serif%22%20font-size%3D%2232%22%20fill%3D%22rgba%28255%2C255%2C255%2C0.4%29%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%223%22%3Eyour-ad-here.com%3C/text%3E%3Ctext%20x%3D%22540%22%20y%3D%22480%22%20font-family%3D%22sans-serif%22%20font-size%3D%2220%22%20fill%3D%22rgba%28255%2C255%2C255%2C0.2%29%22%20text-anchor%3D%22middle%22%3Ereplace%20with%20your%20image%20%E2%80%94%20drop%20into%20/ads/%20folder%3C/text%3E%3C/svg%3E',
+    alt: 'Advertisement — Ad Two',
+    regions: []
+  },
+  {
+    src: 'data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%221080%22%20height%3D%22576%22%20viewBox%3D%220%200%201080%20576%22%3E%3Crect%20width%3D%221080%22%20height%3D%22576%22%20fill%3D%22%234a3a2a%22/%3E%3Crect%20x%3D%220%22%20y%3D%220%22%20width%3D%221080%22%20height%3D%224%22%20fill%3D%22%232db8ad%22%20opacity%3D%220.8%22/%3E%3Crect%20x%3D%220%22%20y%3D%22572%22%20width%3D%221080%22%20height%3D%224%22%20fill%3D%22%232db8ad%22%20opacity%3D%220.8%22/%3E%3Ctext%20x%3D%22540%22%20y%3D%22260%22%20font-family%3D%22sans-serif%22%20font-weight%3D%22700%22%20font-size%3D%2272%22%20fill%3D%22%235cccc3%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%226%22%3EAd%20Three%20%E2%80%94%20lkewtr%3C/text%3E%3Ctext%20x%3D%22540%22%20y%3D%22330%22%20font-family%3D%22sans-serif%22%20font-size%3D%2232%22%20fill%3D%22rgba%28255%2C255%2C255%2C0.4%29%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%223%22%3Eyour-ad-here.com%3C/text%3E%3Ctext%20x%3D%22540%22%20y%3D%22480%22%20font-family%3D%22sans-serif%22%20font-size%3D%2220%22%20fill%3D%22rgba%28255%2C255%2C255%2C0.2%29%22%20text-anchor%3D%22middle%22%3Ereplace%20with%20your%20image%20%E2%80%94%20drop%20into%20/ads/%20folder%3C/text%3E%3C/svg%3E',
+    alt: 'Advertisement — Ad Three',
+    regions: []
+  },
+];
+
+// ── DOM REFS ──────────────────────────────────────────
+const taglineEl  = document.getElementById('tagline');
+const adSlotEl   = document.getElementById('adSlot');
+const adImageEl  = document.getElementById('adImage');
+const postView   = document.getElementById('post-view');
+
+// ── STATE ─────────────────────────────────────────────
+let activeSection = null;  // null = home state
+
+// ── HELPERS ───────────────────────────────────────────
+let running = false;
+function show(el) { if (el) el.classList.add('visible'); }
+function hide(el) { if (el) el.classList.remove('visible'); }
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+function hideAllPanels() {
+  document.querySelectorAll('.section-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.post-view').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+}
+
+// ── AD REGION RENDERING ──────────────────────────────
+function clearAdRegions() {
+  if (!adSlotEl) return;
+  adSlotEl.querySelectorAll('.ad-region').forEach(r => r.remove());
+}
+
+function renderAdRegions(regions) {
+  clearAdRegions();
+  if (!adSlotEl || !regions || !regions.length) return;
+  regions.forEach(region => {
+    const a = document.createElement('a');
+    a.className = 'ad-region';
+    a.style.left   = (region.x || 0)  + '%';
+    a.style.top    = (region.y || 0)  + '%';
+    a.style.width  = (region.w || 0)  + '%';
+    a.style.height = (region.h || 0)  + '%';
+    if (region.label) a.setAttribute('aria-label', region.label);
+
+    if (region.action === 'url') {
+      a.href = region.url || '#';
+      a.target = region.target || '_blank';
+      a.rel = 'noopener noreferrer';
+    } else {
+      a.href = '#';
+      a.addEventListener('click', e => {
+        e.preventDefault();
+        dispatchAdAction(region);
+      });
+    }
+    adSlotEl.appendChild(a);
+  });
+}
+
+function dispatchAdAction(region) {
+  switch (region.action) {
+    case 'home':
+      goHome();
+      break;
+    case 'post':
+      if (region.section != null && region.index != null) {
+        openPost(region.section, region.index);
+      }
+      break;
+    case 'overlay':
+      if (region.id) openOverlay(region.id, null);
+      break;
+    case 'archive':
+      openArchive(region.section || 'source', null);
+      break;
+  }
+}
+
+// ── AD ROTATION LOOP ─────────────────────────────────
+async function runLoop() {
+  running = true;
+  while (running) {
+    if (adFiles.length === 0) {
+      hide(adSlotEl); show(taglineEl);
+      await sleep(1000);
+      continue;
+    }
+    for (let i = 0; i < adFiles.length; i++) {
+      if (!running) break;
+      hide(adSlotEl); clearAdRegions(); show(taglineEl);
+      await sleep(TAGLINE_MS);
+      if (!running) break;
+      hide(taglineEl);
+      await sleep(FADE_MS);
+      const ad = adFiles[i];
+      adImageEl.src = ad.src;
+      adImageEl.alt = ad.alt || 'Advertisement';
+      renderAdRegions(ad.regions);
+      show(adSlotEl);
+      await sleep(AD_MS);
+      hide(adSlotEl);
+      clearAdRegions();
+      await sleep(FADE_MS);
+    }
+  }
+}
+
+// ── HOME STATE ────────────────────────────────────────
+function goHome() {
+  hideAllPanels();
+  const home = document.getElementById('panel-home');
+  if (home) home.classList.add('active');
+  activeSection = null;
+  document.querySelector('.site-body').scrollTop = 0;
+}
+
+// ── NAV TAB SWITCHING ─────────────────────────────────
+function switchTab(btn) {
+  hideAllPanels();
+  btn.classList.add('active');
+  activeSection = btn.dataset.section;
+  const panel = document.getElementById('panel-' + activeSection);
+  if (panel) panel.classList.add('active');
+  document.querySelector('.site-body').scrollTop = 0;
+}
+
+// ── ARCHIVE LINK ──────────────────────────────────────
+// openArchive(section?, event?) — navigate to archive page.
+// If section is provided, lands on that section's full list (archive.html?section=…).
+// If section is omitted/null, lands on archive home (mixed recent posts panel).
+// Falls back to under-construction overlay if the archive route isn't available.
+function openArchive(section, e) {
+  if (e) e.preventDefault();
+  const path = section ? '/' + section + '/' : '/archive/';
+  fetch(path, { method: 'HEAD' })
+    .then(res => {
+      if (res.ok) {
+        window.location.href = path;
+      } else {
+        openOverlay('under-construction', null);
+      }
+    })
+    .catch(() => openOverlay('under-construction', null));
+}
+
+// ── OVERLAY PANELS ────────────────────────────────────
+function openOverlay(id, e) {
+  if (e) e.preventDefault();
+  hideAllPanels();
+  const el = document.getElementById(id);
+  if (el) el.classList.add('active');
+  document.querySelector('.site-body').scrollTop = 0;
+}
+
+function closeOverlay() {
+  hideAllPanels();
+  const home = document.getElementById('panel-home');
+  if (activeSection) {
+    const panel = document.getElementById('panel-' + activeSection);
+    if (panel) panel.classList.add('active');
+    document.querySelectorAll('.nav-tab').forEach(t => {
+      if (t.dataset.section === activeSection) t.classList.add('active');
+    });
+  } else if (home) {
+    goHome();
+  }
+  // On archive pages with no panel-home, panels are managed by archive.js
+  const body = document.querySelector('.site-body, .arc-body');
+  if (body) body.scrollTop = 0;
+}
+
+// ── POST VIEW ─────────────────────────────────────────
+const posts = {
+  source: [
+    {
+      title: 'Best SSDs in 2026 — What to Buy and Why',
+      meta:  '12 Nov 2026 · Source',
+      body:  `<p>The SSD market has matured rapidly over the past two years.</p>
+              <h3>NVMe Gen 5 — The Speed Leaders</h3>
+              <p>Gen 5 drives push sequential reads beyond 12,000 MB/s.</p>
+              <h3>NVMe Gen 4 — The Sweet Spot</h3>
+              <p>Gen 4 drives remain the best value in 2026.</p>
+              <h3>Budget SATA — Still Relevant</h3>
+              <p>For secondary storage, SATA SSDs like the Crucial MX500 remain excellent.</p>`
+    },
+    {
+      title: 'Choosing the Right CPU: AMD vs Intel in 2026',
+      meta:  '28 Oct 2026 · Source',
+      body:  `<p>The CPU landscape in 2026 is more competitive than ever.</p>
+              <h3>AMD Ryzen 9000 Series</h3>
+              <p>Built on Zen 5, with meaningful IPC gains over Zen 4.</p>
+              <h3>Intel Core Ultra 200 Series</h3>
+              <p>Strong single-threaded performance, but LGA1851 longevity is uncertain.</p>`
+    },
+    {
+      title: 'RAM Speed vs Capacity: What Actually Matters?',
+      meta:  '05 Oct 2026 · Source',
+      body:  `<p>The honest answer: it depends entirely on your workload.</p>
+              <h3>Gaming</h3><p>DDR5-6000 is the sweet spot for Ryzen builds.</p>
+              <h3>Video Editing</h3><p>32 GB minimum for comfortable 4K editing.</p>`
+    },
+  ],
+  install: [
+    {
+      title: 'Fresh Windows 11 Install — The Right Way',
+      meta:  '18 Nov 2026 · Install',
+      body:  `<p>A clean install done properly sets up a machine for years.</p>
+              <h3>Create Installation Media</h3><p>Use the official Media Creation Tool.</p>
+              <h3>Post-Install Essentials</h3><p>Run Windows Update before anything else.</p>`
+    },
+    {
+      title: 'Ubuntu 24.04 on a New Machine — Getting Started',
+      meta:  '02 Nov 2026 · Install',
+      body:  `<p>One of the most polished Linux releases in years.</p>
+              <h3>Driver Installation</h3><p>Run Software & Updates → Additional Drivers.</p>`
+    },
+    {
+      title: 'Setting Up a NAS with TrueNAS Scale',
+      meta:  '14 Oct 2026 · Install',
+      body:  `<p>A home NAS transforms how you store and access data.</p>
+              <h3>Pool Creation</h3><p>Choose Mirror for two drives, RAIDZ1 for three or more.</p>`
+    },
+  ],
+  repair: [
+    {
+      title: "PC Won't Boot — Systematic Troubleshooting",
+      meta:  '22 Nov 2026 · Repair',
+      body:  `<p>There is a logical order to diagnose the cause.</p>
+              <h3>Start with Power</h3><p>Check PSU switch and cable seating first.</p>
+              <h3>Reseat Everything</h3><p>RAM reseating fixes a surprising proportion of no-POST issues.</p>`
+    },
+    {
+      title: 'Recovering Data from a Failing Drive',
+      meta:  '09 Nov 2026 · Repair',
+      body:  `<p>Hard drives rarely fail without warning.</p>
+              <h3>Reading SMART Data</h3><p>Use CrystalDiskInfo or smartmontools.</p>`
+    },
+    {
+      title: 'Laptop Overheating? How to Reclean and Repaste',
+      meta:  '21 Oct 2026 · Repair',
+      body:  `<p>Thermal maintenance is often the highest-impact repair on aging laptops.</p>
+              <h3>The Process</h3><p>Clean old paste with IPA, apply pea-sized amount of new paste.</p>`
+    },
+  ],
+};
+
+function openPost(section, index) {
+  const post = posts[section][index];
+  if (!post) return;
+  document.getElementById('post-view-title').textContent = post.title;
+  document.getElementById('post-view-meta').textContent  = post.meta;
+  document.getElementById('post-view-body').innerHTML    = post.body;
+  hideAllPanels();
+  postView.classList.add('active');
+  document.querySelector('.site-body').scrollTop = 0;
+}
+
+function closePost() {
+  closeOverlay();
+}
+
+// ── CONTACT FORM ──────────────────────────────────────
+function submitContact(e) {
+  e.preventDefault();
+  const name    = document.getElementById('cf-name').value.trim();
+  const email   = document.getElementById('cf-email').value.trim();
+  const message = document.getElementById('cf-message').value.trim();
+  const status  = document.getElementById('form-status');
+  if (!name || !email || !message) {
+    status.textContent = 'Please fill in name, email and message.';
+    status.style.color = '#b85555';
+    return;
+  }
+  status.style.color = 'var(--aqua)';
+  status.textContent = 'Message sent — thank you.';
+  document.getElementById('cf-name').value    = '';
+  document.getElementById('cf-email').value   = '';
+  document.getElementById('cf-subject').value = '';
+  document.getElementById('cf-message').value = '';
+}
+
+// ── INIT ──────────────────────────────────────────────
+goHome();
+runLoop();
+
+
+try { window.posts = posts; } catch (e) {}
+
+
+/* ─────────────────────────────────────────────────────
+   archive.js
+   Tab switching, search, pagination, URL params
+   Coexists with main.js — extends hideAllPanels and switchTab
+   ───────────────────────────────────────────────────── */
+
+// ── INIT — read URL param to pre-select tab ───────────
+// No param (or section=home) → archive home panel (mirrors index home)
+// section=source/install/repair → that section's full list
+(function archiveInit() {
+  const params = new URLSearchParams(window.location.search);
+  const section = params.get('section');  // null means home
+  if (['source','install','repair'].includes(section)) {
+    activeSection = section;
+  } else {
+    activeSection = null;  // home state
+  }
+
+  document.querySelectorAll('.nav-tab').forEach(t => {
+    t.classList.toggle('active', activeSection !== null && t.dataset.section === activeSection);
+  });
+  document.querySelectorAll('.arc-section').forEach(p => {
+    if (activeSection === null) {
+      p.classList.toggle('active', p.id === 'panel-home');
+    } else {
+      p.classList.toggle('active', p.id === 'panel-' + activeSection);
+    }
+  });
+
+  // Pagefind init — uncomment when live:
+  // new PagefindUI({ element: '#search', showImages: false });
+})();
+
+// ── HOME STATE ────────────────────────────────────────
+// Returns user to the archive's home panel (mixed recent posts).
+// Same shape as main.js's goHome but operates on archive context.
+function goArcHome() {
+  hideAllPanels();
+  const home = document.getElementById('panel-home');
+  if (home) home.classList.add('active');
+  activeSection = null;
+  // Drop section param from URL
+  const url = new URL(window.location);
+  url.searchParams.delete('section');
+  history.replaceState({}, '', url);
+  const body = document.querySelector('.arc-body');
+  if (body) body.scrollTop = 0;
+}
+
+// ── OVERRIDE hideAllPanels to also hide arc-section ─────
+// main.js defines hideAllPanels — extend it here for archive
+const _origHideAllPanels = hideAllPanels;
+hideAllPanels = function() {
+  _origHideAllPanels();
+  document.querySelectorAll('.arc-section').forEach(p => p.classList.remove('active'));
+};
+
+// ── OVERRIDE switchTab for archive context ──────────────
+switchTab = function(btn) {
+  clearSearch();
+  hideAllPanels();
+  btn.classList.add('active');
+  activeSection = btn.dataset.section;
+  const panel = document.getElementById('panel-' + activeSection);
+  if (panel) panel.classList.add('active');
+
+  // Update URL param without reloading
+  const url = new URL(window.location);
+  url.searchParams.set('section', activeSection);
+  history.replaceState({}, '', url);
+
+  document.querySelector('.arc-body').scrollTop = 0;
+};
+
+// ── OVERRIDE closeOverlay to restore last view ──────────
+closeOverlay = function() {
+  hideAllPanels();
+  if (activeSection === null) {
+    // Return to home panel
+    const home = document.getElementById('panel-home');
+    if (home) home.classList.add('active');
+  } else {
+    // Restore the active arc-section panel and its tab
+    const panel = document.getElementById('panel-' + activeSection);
+    if (panel) panel.classList.add('active');
+    document.querySelectorAll('.nav-tab').forEach(t => {
+      if (t.dataset.section === activeSection) t.classList.add('active');
+    });
+  }
+  document.querySelector('.arc-body').scrollTop = 0;
+};
+
+// ── SEARCH ────────────────────────────────────────────
+function handleSearch(query) {
+  const clearBtn = document.getElementById('arc-search-clear');
+  const resultsPanel = document.getElementById('search-results');
+  const resultsList = document.getElementById('arc-results-list');
+
+  if (!query.trim()) {
+    clearSearch();
+    return;
+  }
+
+  clearBtn.style.display = 'block';
+
+  document.querySelectorAll('.arc-section').forEach(p => {
+    if (p.id !== 'search-results') p.classList.remove('active');
+  });
+  resultsPanel.style.display = 'flex';
+  resultsPanel.classList.add('active');
+
+  const allItems = document.querySelectorAll('#panel-source .arc-post-item, #panel-install .arc-post-item, #panel-repair .arc-post-item');
+  const q = query.toLowerCase();
+  let matches = [];
+
+  allItems.forEach(item => {
+    const title   = item.querySelector('.arc-post-title')?.textContent.toLowerCase() || '';
+    const excerpt = item.querySelector('.arc-post-excerpt')?.textContent.toLowerCase() || '';
+    const meta    = item.querySelector('.arc-post-meta')?.textContent.toLowerCase() || '';
+    if (title.includes(q) || excerpt.includes(q) || meta.includes(q)) {
+      matches.push(item.cloneNode(true));
+    }
+  });
+
+  if (matches.length === 0) {
+    resultsList.innerHTML = `<div class="arc-no-results">No results for "${query}"</div>`;
+  } else {
+    resultsList.innerHTML = '';
+    matches.forEach(m => resultsList.appendChild(m));
+  }
+}
+
+function clearSearch() {
+  const input = document.getElementById('arc-search-input');
+  const clearBtn = document.getElementById('arc-search-clear');
+  const resultsPanel = document.getElementById('search-results');
+
+  if (input) input.value = '';
+  if (clearBtn) clearBtn.style.display = 'none';
+  if (resultsPanel) {
+    resultsPanel.style.display = 'none';
+    resultsPanel.classList.remove('active');
+  }
+
+  const panel = document.getElementById('panel-' + activeSection);
+  if (panel) panel.classList.add('active');
+}
+
+
+
+(function() {
+  const indexPage = document.getElementById('page-index');
+  const archivePage = document.getElementById('page-archive');
+  function activeWrapper() { return document.body.dataset.page === 'archive' ? archivePage : indexPage; }
+  function findInActive(id) { return activeWrapper().querySelector('#' + CSS.escape(id)); }
+
+  function showIndex() {
+    archivePage.style.display = 'none';
+    indexPage.style.display = '';
+    document.body.dataset.page = 'index';
+    if (typeof window.goHome === 'function') window.goHome();
+    window.scrollTo(0, 0);
+  }
+  function showArchive(section) {
+    indexPage.style.display = 'none';
+    archivePage.style.display = '';
+    document.body.dataset.page = 'archive';
+    const valid = ['source','install','repair'];
+    window.activeSection = valid.includes(section) ? section : null;
+    const url = new URL(window.location);
+    if (window.activeSection) url.searchParams.set('section', window.activeSection);
+    else url.searchParams.delete('section');
+    history.replaceState({}, '', url);
+    archivePage.querySelectorAll('.nav-tab').forEach(t => {
+      t.classList.toggle('active', window.activeSection !== null && t.dataset.section === window.activeSection);
+    });
+    archivePage.querySelectorAll('.arc-section').forEach(p => {
+      if (window.activeSection === null) p.classList.toggle('active', p.id === 'panel-home');
+      else p.classList.toggle('active', p.id === 'panel-' + window.activeSection);
+    });
+    if (typeof clearSearch === 'function') { try { clearSearch(); } catch(e) {} }
+    const body = archivePage.querySelector('.arc-body');
+    if (body) body.scrollTop = 0;
+    window.scrollTo(0, 0);
+  }
+  window.openArchive = function(section, e) { if (e) e.preventDefault(); showArchive(section); };
+  window.goArcHome = function() { showArchive(null); };
+  archivePage.querySelectorAll('a[href="index.html"]').forEach(a => {
+    a.addEventListener('click', function(e) { e.preventDefault(); showIndex(); });
+  });
+
+  window.hideAllPanels = function() {
+    const wrap = activeWrapper();
+    wrap.querySelectorAll('.section-panel').forEach(p => p.classList.remove('active'));
+    wrap.querySelectorAll('.arc-section').forEach(p => p.classList.remove('active'));
+    wrap.querySelectorAll('.post-view').forEach(p => p.classList.remove('active'));
+    wrap.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  };
+  window.openOverlay = function(id, e) {
+    if (e) e.preventDefault();
+    window.hideAllPanels();
+    const el = findInActive(id);
+    if (el) el.classList.add('active');
+    const body = activeWrapper().querySelector('.site-body, .arc-body');
+    if (body) body.scrollTop = 0;
+  };
+  window.closeOverlay = function() {
+    window.hideAllPanels();
+    if (document.body.dataset.page === 'archive') {
+      if (window.activeSection === null) {
+        const home = archivePage.querySelector('#panel-home');
+        if (home) home.classList.add('active');
+      } else {
+        const sec = window.activeSection;
+        const panel = archivePage.querySelector('#panel-' + sec);
+        if (panel) panel.classList.add('active');
+        archivePage.querySelectorAll('.nav-tab').forEach(t => {
+          if (t.dataset.section === sec) t.classList.add('active');
+        });
+      }
+      const body = archivePage.querySelector('.arc-body');
+      if (body) body.scrollTop = 0;
+    } else {
+      if (window.activeSection) {
+        const panel = indexPage.querySelector('#panel-' + window.activeSection);
+        if (panel) panel.classList.add('active');
+        indexPage.querySelectorAll('.nav-tab').forEach(t => {
+          if (t.dataset.section === window.activeSection) t.classList.add('active');
+        });
+      } else {
+        const home = indexPage.querySelector('#panel-home');
+        if (home) home.classList.add('active');
+      }
+      const body = indexPage.querySelector('.site-body');
+      if (body) body.scrollTop = 0;
+    }
+  };
+  window.goHome = function() {
+    indexPage.querySelectorAll('.section-panel').forEach(p => p.classList.remove('active'));
+    indexPage.querySelectorAll('.post-view').forEach(p => p.classList.remove('active'));
+    indexPage.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+    const home = indexPage.querySelector('#panel-home');
+    if (home) home.classList.add('active');
+    window.activeSection = null;
+    const body = indexPage.querySelector('.site-body');
+    if (body) body.scrollTop = 0;
+  };
+  window.switchTab = function(btn) {
+    const wrap = activeWrapper();
+    if (typeof clearSearch === 'function' && document.body.dataset.page === 'archive') {
+      try { clearSearch(); } catch(e) {}
+    }
+    window.hideAllPanels();
+    btn.classList.add('active');
+    window.activeSection = btn.dataset.section;
+    const panel = wrap.querySelector('#panel-' + window.activeSection);
+    if (panel) panel.classList.add('active');
+    if (document.body.dataset.page === 'archive') {
+      const url = new URL(window.location);
+      url.searchParams.set('section', window.activeSection);
+      history.replaceState({}, '', url);
+      const body = wrap.querySelector('.arc-body');
+      if (body) body.scrollTop = 0;
+    } else {
+      const body = wrap.querySelector('.site-body');
+      if (body) body.scrollTop = 0;
+    }
+  };
+  window.openPost = function(section, index) {
+    const post = window.posts && window.posts[section] && window.posts[section][index];
+    if (!post) return;
+    const wrap = activeWrapper();
+    const titleEl = wrap.querySelector('#post-view-title');
+    const metaEl  = wrap.querySelector('#post-view-meta');
+    const bodyEl  = wrap.querySelector('#post-view-body');
+    const view    = wrap.querySelector('#post-view');
+    if (titleEl) titleEl.textContent = post.title;
+    if (metaEl) metaEl.textContent = post.meta;
+    if (bodyEl) bodyEl.innerHTML = post.body;
+    window.hideAllPanels();
+    if (view) view.classList.add('active');
+    const body = wrap.querySelector('.site-body, .arc-body');
+    if (body) body.scrollTop = 0;
+  };
+  window.submitContact = function(e) {
+    if (e) e.preventDefault();
+    const wrap = activeWrapper();
+    const name    = wrap.querySelector('#cf-name')?.value.trim() || '';
+    const email   = wrap.querySelector('#cf-email')?.value.trim() || '';
+    const message = wrap.querySelector('#cf-message')?.value.trim() || '';
+    const status  = wrap.querySelector('#form-status');
+    if (!status) return;
+    if (!name || !email || !message) {
+      status.textContent = 'Please fill in name, email and message.';
+      status.style.color = '#b85555';
+      return;
+    }
+    status.style.color = 'var(--aqua)';
+    status.textContent = 'Message sent — thank you.';
+    ['#cf-name','#cf-email','#cf-subject','#cf-message'].forEach(sel => {
+      const el = wrap.querySelector(sel);
+      if (el) el.value = '';
+    });
+  };
+  document.body.dataset.page = 'index';
+  window.goHome();
+})();
+
+</script>
+</body>
+</html>
