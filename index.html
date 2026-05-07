@@ -2144,8 +2144,18 @@ function submitContact(e) {
 }
 
 // ── INIT ──────────────────────────────────────────────
-goHome();
-runLoop();
+// main.js is loaded on both index.html and archive.html (because
+// archive.js uses helpers defined here). But goHome() and runLoop()
+// are index-specific — they manage the index's home panel and the
+// hero ad rotation. Skip them on the archive, where archive.js
+// runs its own init for archive-specific state.
+//
+// We detect "is this the index page?" by feature-check: the index
+// has #adSlot in its hero markup; the archive does not.
+if (document.getElementById('adSlot')) {
+  goHome();
+  runLoop();
+}
 
 
 try { window.posts = posts; } catch (e) {}
