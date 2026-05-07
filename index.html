@@ -3,7 +3,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="color-scheme" content="only light">
-<title>lkewtr — preview</title>
+<title>lkewtr</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Raleway:wght@300;800&family=Atkinson+Hyperlegible+Next:wght@300;400;500&display=swap" rel="stylesheet">
@@ -261,6 +261,34 @@ body {
 }
 
 /* ─────────────────────────────────────────────────────
+   CAPPED COLUMN ON WIDE DISPLAYS              (markers)
+   On displays wider than ~1100px, the nav, body, and
+   footer are capped and centered, creating a magazine
+   column effect. The hero and watermark layer remain
+   edge-to-edge so ad inventory uses the full width.
+
+   The page-shell's --grey-page background fills the
+   sides of the nav and footer (they share that color
+   either through transparency or matching tones), so
+   the visible "column" is only the body region — where
+   the darker --body-bg meets the lighter --grey-page
+   on the page-shell.
+
+   To roll back: delete this block. Nav/body/footer will
+   return to full viewport width on wide displays.
+   ───────────────────────────────────────────────────── */
+.site-nav,
+.site-body,
+.arc-body,
+.site-footer {
+  width: 100%;
+  max-width: 1100px;
+  /* In a flex column parent (.page-shell), align-self centers
+     horizontally; margin: 0 auto can be unreliable. */
+  align-self: center;
+}
+
+/* ─────────────────────────────────────────────────────
    RESPONSIVE OVERRIDES
    Applied on top of the fully-fluid base styles.
    The site's primary calibration is desktop; these
@@ -336,10 +364,7 @@ body {
     width: 1.4rem;
   }
 
-  /* Read-more, post-meta — give back a bit of letter-spacing breathing room. */
-  .read-more {
-    letter-spacing: 0.12em;
-  }
+  /* Post-meta — slight breathing room for letter-spacing on mobile. */
   .post-meta {
     letter-spacing: 0.08em;
   }
@@ -490,8 +515,10 @@ body {
 .section-panel {
   display: none;
   flex-direction: column;
-  width: 90vw;
-  margin: 0 auto;
+  /* width: 100% of body — body owns horizontal padding; panel
+     fills inside it. (Was 90vw, which broke when body got capped
+     to a max-width on wide displays.) */
+  width: 100%;
   flex: 1 1 auto;
 }
 .section-panel.active {
@@ -598,7 +625,10 @@ body {
   border-left: clamp(3px, 0.37vw, 6px) solid var(--aqua);
   padding: clamp(12px, 2.7vmin, 40px) clamp(14px, 3.71vmin, 48px);
   margin-bottom: 0;
-  flex: 1 1 0;
+  /* size to content — was flex: 1 1 0 which made each card stretch
+     to fill the panel evenly, leaving large empty regions when there
+     were only a few cards. */
+  flex: 0 0 auto;
   display: flex;
   flex-direction: column;
   cursor: pointer;
@@ -609,7 +639,7 @@ body {
 
 .post-card .post-title {
   font-size: var(--step-2);
-  font-weight: 700;)
+  font-weight: 700;
   color: var(--grey-dark);
   margin-bottom: 0.556vw;
   letter-spacing: 0.04em;
@@ -643,39 +673,12 @@ body {
 .post-card:hover {
   border-left-color: var(--aqua-light);
 }
-.read-more {
-  display: inline-flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.4vw;
-  font-family: 'Raleway', 'Raleway', 'Century Gothic', sans-serif;
-  font-size: var(--step-n1);
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--grey-dark);
-  margin-top: 1.204vw;
-  transition: color 200ms;
-  align-self: flex-start;
-}
-.read-more::after {
-  content: '';
-  display: block;
-  width: 2.5vw;
-  height: 1px;
-  background: var(--aqua);
-  opacity: 0.8;
-  transition: background 200ms;
-  align-self: center;
-}
-.post-card:hover .read-more { color: var(--aqua); }
-.post-card:hover .read-more::after { background: var(--aqua-light); }
 
 /* ── POST VIEW ───────────────────────────────────────── */
 .post-view {
   display: none;
   flex-direction: column;
-  width: 90vw;
-  margin: 0 auto;
+  width: 100%;
   padding-bottom: 3.981vw;
   flex: 1 1 auto;
 }
@@ -1039,7 +1042,7 @@ body {
 
 /* ── SEARCH ──────────────────────────────────────────── */
 .arc-search-wrap {
-  width: 90vw;
+  width: 100%;
   margin: 0 auto clamp(12px, 2vw, 32px);
 }
 
@@ -1096,8 +1099,7 @@ body {
 .arc-section {
   display: none;
   flex-direction: column;
-  width: 90vw;
-  margin: 0 auto;
+  width: 100%;
   flex: 1 1 auto;
 }
 .arc-section.active { display: flex; }
@@ -1143,9 +1145,13 @@ body {
   border-left: clamp(3px, 0.37vw, 6px) solid var(--aqua);
   padding: clamp(8px, 1.481vw, 24px) clamp(10px, 2.037vw, 32px);
   margin-bottom: 0;
-  flex: 1 1 0;
+  /* size to content (was flex: 1 1 0, which made each item stretch
+     to fill available vertical space — caused empty regions on
+     panels with few items, same bug as .post-card) */
+  flex: 0 0 auto;
   display: flex;
   flex-direction: column;
+  cursor: pointer;
   transition: border-color 200ms;
 }
 .arc-post-item + .arc-post-item {
@@ -1165,32 +1171,34 @@ body {
 }
 
 .arc-post-meta {
-  font-family: 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', sans-serif;
+  /* Match home post-card meta: Raleway, uppercase, same spacing.
+     Tags are inline meta text so they share this treatment. */
+  font-family: 'Raleway', 'Century Gothic', sans-serif;
   font-size: var(--step-n1);
   color: var(--grey-mid);
-  letter-spacing: 0.08em;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
   margin-bottom: 0.833vw;
   display: flex;
-  align-items: center;
+  align-items: baseline;
   flex-wrap: wrap;
-  gap: 0.4vw;
+  gap: 0;
 }
 
 .arc-tag {
-  font-family: 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', sans-serif;
-  font-size: var(--step-n2);
-  color: var(--aqua);
-  background: rgba(45,184,173,0.08);
-  border: 1px solid rgba(45,184,173,0.3);
-  padding: 0.1vw 0.6vw;
-  border-radius: 2px;
-  letter-spacing: 0.06em;
-  cursor: pointer;
-  transition: background 200ms, color 200ms;
+  /* Inline meta text rather than a chip — drops the box outline and
+     background so tags read as part of the meta line (date · section ·
+     tag · tag) instead of separate UI chips. */
+  font-family: 'Raleway', 'Century Gothic', sans-serif;
+  font-size: var(--step-n1);
+  color: var(--grey-mid);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
-.arc-tag:hover {
-  background: rgba(45,184,173,0.18);
-  color: var(--grey-dark);
+/* Insert a separator dot between adjacent tags */
+.arc-tag + .arc-tag::before {
+  content: ' · ';
+  margin: 0 0.2em;
 }
 
 .arc-post-excerpt {
@@ -1203,35 +1211,6 @@ body {
   flex: 1 1 auto;
   overflow: hidden;
 }
-
-/* read more — matches index read-more exactly */
-.arc-read-more {
-  display: inline-flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.4vw;
-  font-family: 'Raleway', 'Century Gothic', sans-serif;
-  font-size: var(--step-n1);
-  font-weight: 800;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--grey-dark);
-  text-decoration: none;
-  align-self: flex-start;
-  transition: color 200ms;
-}
-.arc-read-more::after {
-  content: '';
-  display: block;
-  width: 2.5vw;
-  min-width: 20px;
-  height: 1px;
-  background: var(--aqua);
-  opacity: 0.8;
-  transition: background 200ms;
-}
-.arc-read-more:hover { color: var(--aqua); }
-.arc-read-more:hover::after { background: var(--aqua-light); }
 
 /* ── PAGE BUTTONS — used inside section header ────────── */
 
@@ -1346,19 +1325,16 @@ html, body { height: 100%; margin: 0; }
           <div class="post-title">PC Won't Boot — Systematic Troubleshooting</div>
           <div class="post-meta">22 Nov 2026 &nbsp;·&nbsp; Repair</div>
           <div class="post-excerpt">A machine that won't POST is frustrating, but there's a logical order to diagnose the cause. We walk through every step from power supply testing to reseating RAM…</div>
-          <div class="read-more">Read more →</div>
         </div>
         <div class="post-card" onclick="openPost('install',0)">
           <div class="post-title">Fresh Windows 11 Install — The Right Way</div>
           <div class="post-meta">18 Nov 2026 &nbsp;·&nbsp; Install</div>
           <div class="post-excerpt">Wiping and reinstalling Windows correctly avoids the bloat and leftover junk that accumulates over time. Step-by-step guide from ISO creation to first-boot configuration…</div>
-          <div class="read-more">Read more →</div>
         </div>
         <div class="post-card" onclick="openPost('source',0)">
           <div class="post-title">Best SSDs in 2026 — What to Buy and Why</div>
           <div class="post-meta">12 Nov 2026 &nbsp;·&nbsp; Source</div>
           <div class="post-excerpt">The SSD market has matured rapidly. We break down the top performers across price brackets, covering NVMe Gen 4, Gen 5, and budget SATA options for every build type…</div>
-          <div class="read-more">Read more →</div>
         </div>
       </div>
 
@@ -1368,19 +1344,16 @@ html, body { height: 100%; margin: 0; }
           <div class="post-title">Best SSDs in 2026 — What to Buy and Why</div>
           <div class="post-meta">12 Nov 2026 &nbsp;·&nbsp; Source</div>
           <div class="post-excerpt">The SSD market has matured rapidly. We break down the top performers across price brackets, covering NVMe Gen 4, Gen 5, and budget SATA options for every build type…</div>
-          <div class="read-more">Read more →</div>
         </div>
         <div class="post-card" onclick="openPost('source',1)">
           <div class="post-title">Choosing the Right CPU: AMD vs Intel in 2026</div>
           <div class="post-meta">28 Oct 2026 &nbsp;·&nbsp; Source</div>
           <div class="post-excerpt">Platform decisions have long-term consequences. We compare current-generation desktop CPUs across gaming, workstation, and everyday use cases to help you decide…</div>
-          <div class="read-more">Read more →</div>
         </div>
         <div class="post-card" onclick="openPost('source',2)">
           <div class="post-title">RAM Speed vs Capacity: What Actually Matters?</div>
           <div class="post-meta">05 Oct 2026 &nbsp;·&nbsp; Source</div>
           <div class="post-excerpt">More RAM or faster RAM? The answer depends entirely on your workload. We run benchmarks across gaming, video editing, and general multitasking to settle the debate…</div>
-          <div class="read-more">Read more →</div>
         </div>
       </div>
 
@@ -1390,19 +1363,16 @@ html, body { height: 100%; margin: 0; }
           <div class="post-title">Fresh Windows 11 Install — The Right Way</div>
           <div class="post-meta">18 Nov 2026 &nbsp;·&nbsp; Install</div>
           <div class="post-excerpt">Wiping and reinstalling Windows correctly avoids the bloat and leftover junk that accumulates over time. Step-by-step guide from ISO creation to first-boot configuration…</div>
-          <div class="read-more">Read more →</div>
         </div>
         <div class="post-card" onclick="openPost('install',1)">
           <div class="post-title">Ubuntu 24.04 on a New Machine — Getting Started</div>
           <div class="post-meta">02 Nov 2026 &nbsp;·&nbsp; Install</div>
           <div class="post-excerpt">Ubuntu LTS is a solid daily driver for developers and power users. We cover partitioning, driver installation, and the key post-install steps most guides skip…</div>
-          <div class="read-more">Read more →</div>
         </div>
         <div class="post-card" onclick="openPost('install',2)">
           <div class="post-title">Setting Up a NAS with TrueNAS Scale</div>
           <div class="post-meta">14 Oct 2026 &nbsp;·&nbsp; Install</div>
           <div class="post-excerpt">A home NAS transforms how you store and access data. TrueNAS Scale brings ZFS reliability to a simple web UI. Here's how to go from bare metal to a running array…</div>
-          <div class="read-more">Read more →</div>
         </div>
       </div>
 
@@ -1412,19 +1382,16 @@ html, body { height: 100%; margin: 0; }
           <div class="post-title">PC Won't Boot — Systematic Troubleshooting</div>
           <div class="post-meta">22 Nov 2026 &nbsp;·&nbsp; Repair</div>
           <div class="post-excerpt">A machine that won't POST is frustrating, but there's a logical order to diagnose the cause. We walk through every step from power supply testing to reseating RAM…</div>
-          <div class="read-more">Read more →</div>
         </div>
         <div class="post-card" onclick="openPost('repair',1)">
           <div class="post-title">Recovering Data from a Failing Drive</div>
           <div class="post-meta">09 Nov 2026 &nbsp;·&nbsp; Repair</div>
           <div class="post-excerpt">Before a drive dies completely there are warning signs — and tools to recover your data. Learn to read SMART data and use recovery utilities before it's too late…</div>
-          <div class="read-more">Read more →</div>
         </div>
         <div class="post-card" onclick="openPost('repair',2)">
           <div class="post-title">Laptop Overheating? How to Reclean and Repaste</div>
           <div class="post-meta">21 Oct 2026 &nbsp;·&nbsp; Repair</div>
           <div class="post-excerpt">Thermal paste degrades and vents clog. A reclean and repaste is often the single highest-impact repair you can do on an aging laptop. Full walkthrough inside…</div>
-          <div class="read-more">Read more →</div>
         </div>
       </div>
 
@@ -1588,19 +1555,16 @@ html, body { height: 100%; margin: 0; }
           <div class="post-title">PC Won't Boot — Systematic Troubleshooting</div>
           <div class="post-meta">22 Nov 2026 &nbsp;·&nbsp; Repair</div>
           <div class="post-excerpt">A machine that won't POST is frustrating, but there's a logical order to diagnose the cause. We walk through every step from power supply testing to reseating RAM…</div>
-          <div class="read-more">Read more →</div>
         </div>
         <div class="post-card" onclick="openPost('install',0)">
           <div class="post-title">Fresh Windows 11 Install — The Right Way</div>
           <div class="post-meta">18 Nov 2026 &nbsp;·&nbsp; Install</div>
           <div class="post-excerpt">Wiping and reinstalling Windows correctly avoids the bloat and leftover junk that accumulates over time. Step-by-step guide from ISO creation to first-boot configuration…</div>
-          <div class="read-more">Read more →</div>
         </div>
         <div class="post-card" onclick="openPost('source',0)">
           <div class="post-title">Best SSDs in 2026 — What to Buy and Why</div>
           <div class="post-meta">12 Nov 2026 &nbsp;·&nbsp; Source</div>
           <div class="post-excerpt">The SSD market has matured rapidly. We break down the top performers across price brackets, covering NVMe Gen 4, Gen 5, and budget SATA options for every build type…</div>
-          <div class="read-more">Read more →</div>
         </div>
       </div>
 
@@ -1622,39 +1586,34 @@ html, body { height: 100%; margin: 0; }
         </div>
 
         <!-- Hugo template: {{ range .Pages }} -->
-        <div class="arc-post-item">
+        <div class="arc-post-item" onclick="openPost('source', 0)">
           <div class="arc-post-title">Best SSDs in 2026 — What to Buy and Why</div>
           <div class="arc-post-meta">12 Nov 2026 &nbsp;·&nbsp; Source &nbsp;·&nbsp; <span class="arc-tag">storage</span> <span class="arc-tag">hardware</span></div>
           <div class="arc-post-excerpt">The SSD market has matured rapidly. We break down the top performers across price brackets, covering NVMe Gen 4, Gen 5, and budget SATA options for every build type…</div>
-          <a class="arc-read-more" href="#">Read more</a><!-- Hugo: href="{{ .Permalink }}" -->
         </div>
 
-        <div class="arc-post-item">
+        <div class="arc-post-item" onclick="openPost('source', 1)">
           <div class="arc-post-title">Choosing the Right CPU: AMD vs Intel in 2026</div>
           <div class="arc-post-meta">28 Oct 2026 &nbsp;·&nbsp; Source &nbsp;·&nbsp; <span class="arc-tag">cpu</span> <span class="arc-tag">hardware</span></div>
           <div class="arc-post-excerpt">Platform decisions have long-term consequences. We compare current-generation desktop CPUs across gaming, workstation, and everyday use cases to help you decide…</div>
-          <a class="arc-read-more" href="#">Read more</a>
         </div>
 
-        <div class="arc-post-item">
+        <div class="arc-post-item" onclick="openPost('source', 2)">
           <div class="arc-post-title">RAM Speed vs Capacity: What Actually Matters?</div>
           <div class="arc-post-meta">05 Oct 2026 &nbsp;·&nbsp; Source &nbsp;·&nbsp; <span class="arc-tag">memory</span> <span class="arc-tag">hardware</span></div>
           <div class="arc-post-excerpt">More RAM or faster RAM? The answer depends entirely on your workload. We run benchmarks across gaming, video editing, and general multitasking to settle the debate…</div>
-          <a class="arc-read-more" href="#">Read more</a>
         </div>
 
-        <div class="arc-post-item">
+        <div class="arc-post-item" onclick="openPost('source', 3)">
           <div class="arc-post-title">GPU Buying Guide 2026 — Which Card for Which Budget</div>
           <div class="arc-post-meta">20 Sep 2026 &nbsp;·&nbsp; Source &nbsp;·&nbsp; <span class="arc-tag">gpu</span> <span class="arc-tag">hardware</span></div>
           <div class="arc-post-excerpt">Nvidia and AMD both have compelling lineups this generation. We cut through the marketing and lay out the best options at each price point for gaming and workstation use…</div>
-          <a class="arc-read-more" href="#">Read more</a>
         </div>
 
-        <div class="arc-post-item">
+        <div class="arc-post-item" onclick="openPost('source', 4)">
           <div class="arc-post-title">Motherboard Basics — What to Look For in 2026</div>
           <div class="arc-post-meta">08 Sep 2026 &nbsp;·&nbsp; Source &nbsp;·&nbsp; <span class="arc-tag">motherboard</span> <span class="arc-tag">hardware</span></div>
           <div class="arc-post-excerpt">The motherboard is the platform everything else depends on. We explain the key specs — chipset, VRM quality, connectivity — so you can make a confident purchase…</div>
-          <a class="arc-read-more" href="#">Read more</a>
         </div>
         <!-- Hugo template: {{ end }} -->
 
@@ -1671,39 +1630,34 @@ html, body { height: 100%; margin: 0; }
           <span class="arc-post-count">9 posts</span>
         </div>
 
-        <div class="arc-post-item">
+        <div class="arc-post-item" onclick="openPost('install', 0)">
           <div class="arc-post-title">Fresh Windows 11 Install — The Right Way</div>
           <div class="arc-post-meta">18 Nov 2026 &nbsp;·&nbsp; Install &nbsp;·&nbsp; <span class="arc-tag">windows</span> <span class="arc-tag">os</span></div>
           <div class="arc-post-excerpt">Wiping and reinstalling Windows correctly avoids the bloat and leftover junk that accumulates over time. Step-by-step guide from ISO creation to first-boot configuration…</div>
-          <a class="arc-read-more" href="#">Read more</a>
         </div>
 
-        <div class="arc-post-item">
+        <div class="arc-post-item" onclick="openPost('install', 1)">
           <div class="arc-post-title">Ubuntu 24.04 on a New Machine — Getting Started</div>
           <div class="arc-post-meta">02 Nov 2026 &nbsp;·&nbsp; Install &nbsp;·&nbsp; <span class="arc-tag">linux</span> <span class="arc-tag">ubuntu</span></div>
           <div class="arc-post-excerpt">Ubuntu LTS is a solid daily driver for developers and power users. We cover partitioning, driver installation, and the key post-install steps most guides skip…</div>
-          <a class="arc-read-more" href="#">Read more</a>
         </div>
 
-        <div class="arc-post-item">
+        <div class="arc-post-item" onclick="openPost('install', 2)">
           <div class="arc-post-title">Setting Up a NAS with TrueNAS Scale</div>
           <div class="arc-post-meta">14 Oct 2026 &nbsp;·&nbsp; Install &nbsp;·&nbsp; <span class="arc-tag">nas</span> <span class="arc-tag">storage</span></div>
           <div class="arc-post-excerpt">A home NAS transforms how you store and access data. TrueNAS Scale brings ZFS reliability to a simple web UI. Here's how to go from bare metal to a running array…</div>
-          <a class="arc-read-more" href="#">Read more</a>
         </div>
 
-        <div class="arc-post-item">
+        <div class="arc-post-item" onclick="openPost('install', 3)">
           <div class="arc-post-title">Proxmox VE — Virtualisation for Home Labs</div>
           <div class="arc-post-meta">30 Sep 2026 &nbsp;·&nbsp; Install &nbsp;·&nbsp; <span class="arc-tag">virtualisation</span> <span class="arc-tag">proxmox</span></div>
           <div class="arc-post-excerpt">Proxmox turns any spare machine into a full virtualisation host. We walk through installation, network configuration, and creating your first VM from scratch…</div>
-          <a class="arc-read-more" href="#">Read more</a>
         </div>
 
-        <div class="arc-post-item">
+        <div class="arc-post-item" onclick="openPost('install', 4)">
           <div class="arc-post-title">Docker on Linux — A Practical Starting Point</div>
           <div class="arc-post-meta">15 Sep 2026 &nbsp;·&nbsp; Install &nbsp;·&nbsp; <span class="arc-tag">docker</span> <span class="arc-tag">linux</span></div>
           <div class="arc-post-excerpt">Docker simplifies deploying applications in consistent environments. We cover installation, basic commands, and setting up your first containerised service end to end…</div>
-          <a class="arc-read-more" href="#">Read more</a>
         </div>
 
       </div>
@@ -1719,39 +1673,34 @@ html, body { height: 100%; margin: 0; }
           <span class="arc-post-count">8 posts</span>
         </div>
 
-        <div class="arc-post-item">
+        <div class="arc-post-item" onclick="openPost('repair', 0)">
           <div class="arc-post-title">PC Won't Boot — Systematic Troubleshooting</div>
           <div class="arc-post-meta">22 Nov 2026 &nbsp;·&nbsp; Repair &nbsp;·&nbsp; <span class="arc-tag">troubleshooting</span> <span class="arc-tag">boot</span></div>
           <div class="arc-post-excerpt">A machine that won't POST is frustrating, but there's a logical order to diagnose the cause. We walk through every step from power supply testing to reseating RAM…</div>
-          <a class="arc-read-more" href="#">Read more</a>
         </div>
 
-        <div class="arc-post-item">
+        <div class="arc-post-item" onclick="openPost('repair', 1)">
           <div class="arc-post-title">Recovering Data from a Failing Drive</div>
           <div class="arc-post-meta">09 Nov 2026 &nbsp;·&nbsp; Repair &nbsp;·&nbsp; <span class="arc-tag">data recovery</span> <span class="arc-tag">storage</span></div>
           <div class="arc-post-excerpt">Before a drive dies completely there are warning signs — and tools to recover your data. Learn to read SMART data and use recovery utilities before it's too late…</div>
-          <a class="arc-read-more" href="#">Read more</a>
         </div>
 
-        <div class="arc-post-item">
+        <div class="arc-post-item" onclick="openPost('repair', 2)">
           <div class="arc-post-title">Laptop Overheating? How to Reclean and Repaste</div>
           <div class="arc-post-meta">21 Oct 2026 &nbsp;·&nbsp; Repair &nbsp;·&nbsp; <span class="arc-tag">thermal</span> <span class="arc-tag">laptop</span></div>
           <div class="arc-post-excerpt">Thermal paste degrades and vents clog. A reclean and repaste is often the single highest-impact repair you can do on an aging laptop. Full walkthrough inside…</div>
-          <a class="arc-read-more" href="#">Read more</a>
         </div>
 
-        <div class="arc-post-item">
+        <div class="arc-post-item" onclick="openPost('repair', 3)">
           <div class="arc-post-title">Blue Screen Errors — Reading and Fixing Stop Codes</div>
           <div class="arc-post-meta">05 Oct 2026 &nbsp;·&nbsp; Repair &nbsp;·&nbsp; <span class="arc-tag">windows</span> <span class="arc-tag">bsod</span></div>
           <div class="arc-post-excerpt">BSODs are Windows telling you something is seriously wrong. Stop codes point directly at the cause — once you know how to read them, most are straightforward to fix…</div>
-          <a class="arc-read-more" href="#">Read more</a>
         </div>
 
-        <div class="arc-post-item">
+        <div class="arc-post-item" onclick="openPost('repair', 4)">
           <div class="arc-post-title">Network Drops and Slow Wi-Fi — A Diagnostic Guide</div>
           <div class="arc-post-meta">18 Sep 2026 &nbsp;·&nbsp; Repair &nbsp;·&nbsp; <span class="arc-tag">networking</span> <span class="arc-tag">wifi</span></div>
           <div class="arc-post-excerpt">Intermittent network issues are among the most frustrating to diagnose. We walk through a systematic approach — from driver issues to router configuration to ISP faults…</div>
-          <a class="arc-read-more" href="#">Read more</a>
         </div>
 
       </div>
