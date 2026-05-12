@@ -622,8 +622,16 @@ body {
 /* ── POST CARDS ──────────────────────────────────────── */
 .post-card {
   background: transparent;
-  border-left: clamp(3px, 0.37vw, 6px) solid var(--aqua);
-  padding: clamp(12px, 2.7vmin, 40px) clamp(14px, 3.71vmin, 48px);
+  /* aqua bar drawn as inset box-shadow rather than border-left,
+     so it can thicken on hover without shifting content right.
+     padding-left absorbs the bar width so text sits where it
+     would with a border. */
+  border-left: none;
+  box-shadow: inset clamp(3px, 0.37vw, 6px) 0 0 var(--aqua);
+  padding-top: clamp(12px, 2.7vmin, 40px);
+  padding-bottom: clamp(12px, 2.7vmin, 40px);
+  padding-right: clamp(14px, 3.71vmin, 48px);
+  padding-left: calc(clamp(14px, 3.71vmin, 48px) + clamp(3px, 0.37vw, 6px));
   margin-bottom: 0;
   /* size to content — was flex: 1 1 0 which made each card stretch
      to fill the panel evenly, leaving large empty regions when there
@@ -666,19 +674,22 @@ body {
 
 
 
-/* ── HOVER AFFORDANCE ───────────────────────────────────
-   The aqua border thickens on hover. Width change is more
-   perceptible than color change on a thin line — that's
-   the actual physiological constraint. Color stays --aqua;
-   no aqua-light needed here. 150ms feels like response,
-   not flash. The ~2px width change does cause content to
-   shift right by 2px; visually imperceptible at this scale. */
+/* ── HOVER AFFORDANCE — Option 4: bar swells, content stays put ──
+   The aqua bar grows from 3px (rest) to ~10-11px (hover) on a
+   desktop viewport — a 3.3× width change that's unmistakably
+   perceptible. Implemented via box-shadow inset so the bar can
+   grow into the card's padding without shifting any content.
+   Transition over 200ms reads as response, not flash.
+
+   Option 2 (lean-in: card translateX + thinner bar swell) is
+   held in reserve. To enable it: swap this rule for one that
+   also adds `transform: translateX(3px)` and changes the
+   transition to include `transform`. */
 .post-card {
-  cursor: pointer;
-  transition: border-left-width 150ms ease;
+  transition: box-shadow 200ms ease;
 }
 .post-card:hover {
-  border-left-width: clamp(4px, 0.55vw, 8px);
+  box-shadow: inset clamp(6px, 0.85vw, 12px) 0 0 var(--aqua);
 }
 
 /* ── POST VIEW ───────────────────────────────────────── */
@@ -1149,8 +1160,14 @@ body {
 
 /* ── STACKED POST ITEMS ──────────────────────────────── */
 .arc-post-item {
-  border-left: clamp(3px, 0.37vw, 6px) solid var(--aqua);
-  padding: clamp(8px, 1.481vw, 24px) clamp(10px, 2.037vw, 32px);
+  /* aqua bar drawn as inset box-shadow (matching .post-card)
+     so it can swell on hover without shifting content right. */
+  border-left: none;
+  box-shadow: inset clamp(3px, 0.37vw, 6px) 0 0 var(--aqua);
+  padding-top: clamp(8px, 1.481vw, 24px);
+  padding-bottom: clamp(8px, 1.481vw, 24px);
+  padding-right: clamp(10px, 2.037vw, 32px);
+  padding-left: calc(clamp(10px, 2.037vw, 32px) + clamp(3px, 0.37vw, 6px));
   margin-bottom: 0;
   /* size to content (was flex: 1 1 0, which made each item stretch
      to fill available vertical space — caused empty regions on
@@ -1159,15 +1176,15 @@ body {
   display: flex;
   flex-direction: column;
   cursor: pointer;
-  /* Hover affordance: thicken border, no color change. Matches
-     .post-card behavior for visual consistency across surfaces. */
-  transition: border-left-width 150ms ease;
+  /* Option 4 hover: bar swells via box-shadow, no motion.
+     Matches .post-card for visual consistency. */
+  transition: box-shadow 200ms ease;
 }
 .arc-post-item + .arc-post-item {
   margin-top: clamp(8px, 1.204vw, 20px);
 }
 .arc-post-item:hover {
-  border-left-width: clamp(4px, 0.55vw, 8px);
+  box-shadow: inset clamp(6px, 0.85vw, 12px) 0 0 var(--aqua);
 }
 
 .arc-post-title {
@@ -1296,53 +1313,6 @@ body {
 
 .page-wrap { width: 100%; height: 100%; }
 html, body { height: 100%; margin: 0; }
-
-/* ── HOVER COMPARISON STYLES ─────────────────────────────
-   Two cards in the recent panel are tagged with comparison
-   classes. Cards with .compare-option-2 use the lean-in
-   treatment (border thickens + transform). Cards with
-   .compare-option-4 use the fight-it treatment (box-shadow
-   inset bar swells, content stays put).
-   Hover each in turn and compare. */
-
-/* Disable the default hover so the comparison is clean */
-.post-card:hover {
-  border-left-width: clamp(3px, 0.37vw, 6px) !important;
-  transform: none !important;
-}
-
-/* OPTION 2 — Lean in */
-.post-card.compare-option-2 {
-  transition: border-left-width 200ms ease, transform 200ms ease !important;
-}
-.post-card.compare-option-2:hover {
-  border-left-width: clamp(6px, 0.85vw, 12px) !important;
-  transform: translateX(3px) !important;
-}
-
-/* OPTION 4 — Fight it (box-shadow swelling bar, dramatic thickness) */
-.post-card.compare-option-4 {
-  border-left: none !important;
-  box-shadow: inset clamp(3px, 0.37vw, 6px) 0 0 var(--aqua) !important;
-  padding-left: calc(clamp(14px, 3.71vmin, 48px) + clamp(3px, 0.37vw, 6px)) !important;
-  transition: box-shadow 200ms ease !important;
-}
-.post-card.compare-option-4:hover {
-  box-shadow: inset clamp(6px, 0.85vw, 12px) 0 0 var(--aqua) !important;
-}
-
-/* Small label so you know which is which */
-.compare-label {
-  display: block;
-  font-family: 'Raleway', sans-serif;
-  font-size: 0.7rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--aqua);
-  margin-bottom: 0.5em;
-  opacity: 0.7;
-}
-
 </style></head><body>
 <div id="page-index" class="page-wrap">
 
@@ -1377,20 +1347,17 @@ html, body { height: 100%; margin: 0; }
       <!-- HOME PANEL — latest 3 posts across all sections -->
       <div class="section-panel active" id="panel-home">
         <h2>Recent posts <a class="archive-link" href="#" onclick="openArchive(null, event)">Browse archive →</a></h2>
-        <div class="post-card compare-option-2" onclick="openPost('repair',0)">
-          <span class="compare-label">Option 2 — Lean in (card moves on hover)</span>
+        <div class="post-card" onclick="openPost('repair',0)">
           <div class="post-title">PC Won't Boot — Systematic Troubleshooting</div>
           <div class="post-meta">22 Nov 2026 &nbsp;·&nbsp; Repair</div>
           <div class="post-excerpt">A machine that won't POST is frustrating, but there's a logical order to diagnose the cause. We walk through every step from power supply testing to reseating RAM…</div>
         </div>
-        <div class="post-card compare-option-4" onclick="openPost('install',0)">
-          <span class="compare-label">Option 4 — Fight it (bar swells, no motion)</span>
+        <div class="post-card" onclick="openPost('install',0)">
           <div class="post-title">Fresh Windows 11 Install — The Right Way</div>
           <div class="post-meta">18 Nov 2026 &nbsp;·&nbsp; Install</div>
           <div class="post-excerpt">Wiping and reinstalling Windows correctly avoids the bloat and leftover junk that accumulates over time. Step-by-step guide from ISO creation to first-boot configuration…</div>
         </div>
         <div class="post-card" onclick="openPost('source',0)">
-          <span class="compare-label" style="color: var(--grey-mid);">Reference — Current behavior (no hover effect)</span>
           <div class="post-title">Best SSDs in 2026 — What to Buy and Why</div>
           <div class="post-meta">12 Nov 2026 &nbsp;·&nbsp; Source</div>
           <div class="post-excerpt">The SSD market has matured rapidly. We break down the top performers across price brackets, covering NVMe Gen 4, Gen 5, and budget SATA options for every build type…</div>
